@@ -34,6 +34,9 @@
 | **Camera Portao** | `38:be:ab:91:96:85` | `192.168.1.10` | `80`, `554`, `34567` | ONLINE ✅ |
 | **Camera Interna** | `00:13:00:01:61:7b` | `192.168.1.31` | `80`, `554`, `8899` | ONLINE ✅ |
 
+> [!NOTE]
+> **Pendências de Hardware:** O Canal 01 do NVR está sob investigação de hardware (alimentação/cabeamento/status do canal). Consulte o rastreador de pendências em [`docs/ISSUES.md`](file:///home/brunoconter/Doc/4/10_RTSP_Manager/docs/ISSUES.md).
+
 ---
 
 ## ⚙️ Como Cadastrar Câmeras em `config/cameras.json`
