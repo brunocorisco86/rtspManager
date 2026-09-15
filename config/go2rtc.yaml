@@ -1,5 +1,5 @@
 # ==============================================================================
-# go2rtc Configuration - 10_RTSP_Manager (Canais Válidos do NVR)
+# go2rtc Configuration - 10_RTSP_Manager (Canais 2, 3, 4, 5 e 6 do NVR)
 # ==============================================================================
 
 api:
@@ -16,7 +16,7 @@ webrtc:
     - stun:stun.l.google.com:19302
 
 streams:
-  # Canal 2 (720p HD - já é H.264 nativo)
+  # Canal 2 (720p HD nativo H.264)
   canal_02:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=2&stream=0.sdp#transport=tcp
 
@@ -31,6 +31,10 @@ streams:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=4&stream=0.sdp#transport=tcp
   canal_04_h264:
     - ffmpeg:canal_04#video=h264#hardware=auto
+
+  # Canal 5 (720p HD nativo H.264)
+  canal_05:
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=5&stream=0.sdp#transport=tcp
 
   # Canal 6 (2304x1296 2K)
   canal_06:
