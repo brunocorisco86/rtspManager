@@ -1,5 +1,5 @@
 # ==============================================================================
-# go2rtc Configuration - 10_RTSP_Manager (Compatibilidade Universal H.264 / H.265)
+# go2rtc Configuration - 10_RTSP_Manager (Canais Válidos do NVR)
 # ==============================================================================
 
 api:
@@ -16,20 +16,25 @@ webrtc:
     - stun:stun.l.google.com:19302
 
 streams:
-  canal_01:
-    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=1&stream=0.sdp#transport=tcp
+  # Canal 2 (720p HD - já é H.264 nativo)
+  canal_02:
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=2&stream=0.sdp#transport=tcp
+
+  # Canal 3 (1080p Full HD)
   canal_03:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=3&stream=0.sdp#transport=tcp
-  canal_04:
-    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=4&stream=0.sdp#transport=tcp
-  canal_06:
-    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=6&stream=0.sdp#transport=tcp
-
-  # Versões H.264 convertidas sob demanda via ffmpeg no Raspberry Pi para navegadores sem H.265 nativo
   canal_03_h264:
     - ffmpeg:canal_03#video=h264#hardware=auto
+
+  # Canal 4 (2560x1440 Quad-HD 2.5K)
+  canal_04:
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=4&stream=0.sdp#transport=tcp
   canal_04_h264:
     - ffmpeg:canal_04#video=h264#hardware=auto
+
+  # Canal 6 (2304x1296 2K)
+  canal_06:
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=6&stream=0.sdp#transport=tcp
   canal_06_h264:
     - ffmpeg:canal_06#video=h264#hardware=auto
 
