@@ -8,7 +8,6 @@ import os
 import sys
 import subprocess
 import argparse
-import requests
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -36,28 +35,36 @@ def capture_via_ffmpeg(rtsp_url, output_path, timeout=5):
         return False
 
 def capture_via_go2rtc(go2rtc_host, stream_name, output_path):
+    import urllib.request
     url = f"http://{go2rtc_host}:1984/api/frame.jpeg?src={stream_name}"
     try:
-        resp = requests.get(url, timeout=4)
-        if resp.status_code == 200:
-            with open(output_path, "wb") as f:
-                f.write(resp.content)
-            return True
+        req = urllib.request.Request(url)
+        with urllib.request.urlopen(req, timeout=4) as resp:
+            if resp.status == 200:
+                with open(output_path, "wb") as f:
+                    f.write(resp.read())
+                return True
     except Exception as e:
         print(f"Erro ao capturar via go2rtc: {e}")
     return False
 
-def send_to_ntfy(image_path, title="Captura CFTV 📸", message="Frame capturado com sucesso"):
-    with open(image_path, "rb") as img:
-        headers = {
-            "Title": title,
-            "Priority": "3",
-            "Tags": "camera,frame",
-            "Message": message,
-            "Filename": os.path.basename(image_path)
-        }
-        resp = requests.post(f"{NTFY_SERVER}/{NTFY_TOPIC}", data=img, headers=headers, timeout=5)
-        return resp.status_code == 200
+def send_to_ntfy_curl(image_path, title="Captura CFTV", message="Frame capturado com sucesso"):
+    filename = os.path.basename(image_path)
+    url = f"{NTFY_SERVER}/{NTFY_TOPIC}"
+    cmd = [
+        "curl", "-s",
+        "-T", image_path,
+        "-H", f"Title: {title}",
+        "-H", f"Message: {message}",
+        "-H", f"Filename: {filename}",
+        url
+    ]
+    try:
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+        return res.returncode == 0 and "attachment" in res.stdout
+    except Exception as e:
+        print(f"Erro ao enviar ntfy via curl: {e}")
+        return False
 
 def main():
     parser = argparse.ArgumentParser(description="Captura de frames de CFTV e envio via ntfy")
@@ -66,7 +73,8 @@ def main():
     parser.add_argument("--src", help="Nome do stream no go2rtc (ex: nvr_canal1, cam_04)")
     parser.add_argument("--out", default="/tmp/snapshot.jpg", help="Caminho do arquivo local de saída")
     parser.add_argument("--ntfy", action="store_true", help="Envia o snapshot capturado para o canal ntfy")
-    parser.add_argument("--title", default="Câmera Alerta 📸", help="Título do alerta ntfy")
+    parser.add_argument("--title", default="Camera Alerta", help="Título do alerta ntfy")
+    parser.add_argument("--msg", default="Snapshot ao vivo da camera", help="Mensagem do alerta")
     args = parser.parse_args()
 
     success = False
@@ -84,7 +92,7 @@ def main():
         print(f"✅ Snapshot salvo em {args.out} ({os.path.getsize(args.out)} bytes)")
         if args.ntfy:
             print("Enviando foto para o celular via ntfy...")
-            if send_to_ntfy(args.out, title=args.title):
+            if send_to_ntfy_curl(args.out, title=args.title, message=args.msg):
                 print("📱 Foto entregue com sucesso no app ntfy!")
             else:
                 print("❌ Falha ao enviar para o ntfy.")
