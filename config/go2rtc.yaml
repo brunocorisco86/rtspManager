@@ -1,5 +1,6 @@
 # ==============================================================================
-# go2rtc Configuration - 10_RTSP_Manager (Canais 2, 3, 4, 5 e 6 do NVR)
+# go2rtc Configuration - 10_RTSP_Manager
+# Canais 2, 3, 4, 5 e 6 do NVR
 # ==============================================================================
 
 api:
@@ -24,13 +25,13 @@ streams:
   canal_03:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=3&stream=0.sdp#transport=tcp
   canal_03_h264:
-    - ffmpeg:canal_03#video=h264#hardware=auto
+    - ffmpeg:canal_03#video=h264
 
   # Canal 4 (2560x1440 Quad-HD 2.5K)
   canal_04:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=4&stream=0.sdp#transport=tcp
   canal_04_h264:
-    - ffmpeg:canal_04#video=h264#hardware=auto
+    - ffmpeg:canal_04#video=h264
 
   # Canal 5 (720p HD nativo H.264)
   canal_05:
@@ -40,7 +41,7 @@ streams:
   canal_06:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=6&stream=0.sdp#transport=tcp
   canal_06_h264:
-    - ffmpeg:canal_06#video=h264#hardware=auto
+    - ffmpeg:canal_06#video=h264
 
 log:
   level: info
