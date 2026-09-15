@@ -1,6 +1,6 @@
 # ==============================================================================
 # go2rtc Configuration (Gerado Automaticamente pelo Dynamic Resolver)
-# Atualizado em: 2026-09-14 23:02:51
+# Atualizado em: 2026-09-14 23:15:01
 # Modo Passthrough / Zero Transcoding (Otimizado para Raspberry Pi 3)
 # ==============================================================================
 
@@ -16,31 +16,31 @@ webrtc:
 streams:
   # --- Canais Centralizados via NVR ---
   nvr_canal1:
-    - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=1&stream=0.sdp#backchannel=0
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=1&stream=0.sdp#backchannel=0
   nvr_canal2:
-    - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=2&stream=0.sdp#backchannel=0
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=2&stream=0.sdp#backchannel=0
   nvr_canal3:
-    - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=3&stream=0.sdp#backchannel=0
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=3&stream=0.sdp#backchannel=0
   nvr_canal4:
-    - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=4&stream=0.sdp#backchannel=0
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=4&stream=0.sdp#backchannel=0
   nvr_canal5:
-    - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=5&stream=0.sdp#backchannel=0
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=5&stream=0.sdp#backchannel=0
   nvr_canal6:
-    - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=6&stream=0.sdp#backchannel=0
+    - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=6&stream=0.sdp#backchannel=0
 
   # --- Streams Diretos das Câmeras (IP Resolvido por MAC) ---
-  camera_frente:
+  camera_04:
     - rtsp://admin:@192.168.1.4:554/user=admin&password=&channel=1&stream=0.sdp
-  camera_fundos:
-    - rtsp://admin:@192.168.1.5:554/user=admin&password=&channel=1&stream=0.sdp
-  camera_lateral:
-    - rtsp://admin:@192.168.1.6:554/user=admin&password=&channel=1&stream=0.sdp
-  camera_garagem:
-    - rtsp://admin:@192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp
-  camera_portao:
-    - rtsp://admin:@192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp
-  camera_interna:
+  camera_31:
     - rtsp://admin:@192.168.1.31:554/user=admin&password=&channel=1&stream=0.sdp
+  camera_05:
+    - rtsp://admin:@192.168.1.5:554/user=admin&password=&channel=1&stream=0.sdp
+  camera_06:
+    - rtsp://admin:@192.168.1.6:554/user=admin&password=&channel=1&stream=0.sdp
+  camera_10:
+    - rtsp://admin:@192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp
+  camera_11:
+    - rtsp://admin:@192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp
 
 log:
   level: info
