@@ -1,0 +1,82 @@
+{
+  "updated_at": "2026-09-14T23:02:51.746644",
+  "nvr": {
+    "name": "NVR_Principal",
+    "mac": "00:12:43:24:4e:c6",
+    "ip": "192.168.1.20",
+    "vendor": "Xiongmai (XM / NetSurveillance)",
+    "user": "admin",
+    "password": "",
+    "rtsp_path_pattern": "user={user}&password={password}&channel={channel}&stream=0.sdp",
+    "resolved_ip": "192.168.1.20",
+    "status": "ONLINE"
+  },
+  "cameras": {
+    "Camera_Frente": {
+      "name": "Camera_Frente",
+      "mac": "a4:ef:15:30:79:32",
+      "configured_ip": "192.168.1.4",
+      "resolved_ip": "192.168.1.4",
+      "nvr_channel": 1,
+      "status": "ONLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": "2026-09-14T23:02:51.624990"
+    },
+    "Camera_Fundos": {
+      "name": "Camera_Fundos",
+      "mac": "c4:3c:b0:79:80:db",
+      "configured_ip": "192.168.1.5",
+      "resolved_ip": "192.168.1.5",
+      "nvr_channel": 2,
+      "status": "ONLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": "2026-09-14T23:02:51.632934"
+    },
+    "Camera_Lateral": {
+      "name": "Camera_Lateral",
+      "mac": "48:8f:4c:3d:13:14",
+      "configured_ip": "192.168.1.6",
+      "resolved_ip": "192.168.1.6",
+      "nvr_channel": 3,
+      "status": "ONLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": "2026-09-14T23:02:51.645229"
+    },
+    "Camera_Garagem": {
+      "name": "Camera_Garagem",
+      "mac": "38:be:ab:91:96:85",
+      "configured_ip": "192.168.1.10",
+      "resolved_ip": "192.168.1.10",
+      "nvr_channel": 4,
+      "status": "ONLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": "2026-09-14T23:02:51.650675"
+    },
+    "Camera_Portao": {
+      "name": "Camera_Portao",
+      "mac": "38:be:ab:91:96:85",
+      "configured_ip": "192.168.1.11",
+      "resolved_ip": "192.168.1.10",
+      "nvr_channel": 5,
+      "status": "ONLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": "2026-09-14T23:02:51.655455"
+    },
+    "Camera_Interna": {
+      "name": "Camera_Interna",
+      "mac": "00:13:00:01:61:7b",
+      "configured_ip": "192.168.1.31",
+      "resolved_ip": "192.168.1.31",
+      "nvr_channel": 6,
+      "status": "ONLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": "2026-09-14T23:02:51.656216"
+    }
+  }
+}

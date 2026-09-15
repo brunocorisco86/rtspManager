@@ -1,13 +1,11 @@
 # ==============================================================================
-# go2rtc Configuration - 10_RTSP_Manager
-# ==============================================================================
-# Otimizado para Raspberry Pi 3 (Zero Transcoding / Modo Passthrough)
-# Consumo esperado de RAM: ~25 MB / CPU: < 1%
+# go2rtc Configuration (Gerado Automaticamente pelo Dynamic Resolver)
+# Atualizado em: 2026-09-14 23:02:51
+# Modo Passthrough / Zero Transcoding (Otimizado para Raspberry Pi 3)
 # ==============================================================================
 
 api:
   listen: ":1984"
-  # Interface web em http://192.168.1.99:1984
 
 rtsp:
   listen: ":8554"
@@ -15,10 +13,8 @@ rtsp:
 webrtc:
   listen: ":8555"
 
-# Declaração dos streams das Câmeras e do NVR
-# Formato padrão XM: rtsp://user:pass@IP:554/user=user&password=pass&channel=1&stream=0.sdp
 streams:
-  # --- Canais Diretos via NVR (192.168.1.20) ---
+  # --- Canais Centralizados via NVR ---
   nvr_canal1:
     - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=1&stream=0.sdp#backchannel=0
   nvr_canal2:
@@ -32,18 +28,18 @@ streams:
   nvr_canal6:
     - rtsp://admin:@192.168.1.20:554/user=admin&password=&channel=6&stream=0.sdp#backchannel=0
 
-  # --- Acesso Direto às Câmeras Individuais (IP Direto) ---
-  cam_04:
+  # --- Streams Diretos das Câmeras (IP Resolvido por MAC) ---
+  camera_frente:
     - rtsp://admin:@192.168.1.4:554/user=admin&password=&channel=1&stream=0.sdp
-  cam_05:
+  camera_fundos:
     - rtsp://admin:@192.168.1.5:554/user=admin&password=&channel=1&stream=0.sdp
-  cam_06:
+  camera_lateral:
     - rtsp://admin:@192.168.1.6:554/user=admin&password=&channel=1&stream=0.sdp
-  cam_10:
+  camera_garagem:
     - rtsp://admin:@192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp
-  cam_11:
-    - rtsp://admin:@192.168.1.11:554/user=admin&password=&channel=1&stream=0.sdp
-  cam_31:
+  camera_portao:
+    - rtsp://admin:@192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp
+  camera_interna:
     - rtsp://admin:@192.168.1.31:554/user=admin&password=&channel=1&stream=0.sdp
 
 log:

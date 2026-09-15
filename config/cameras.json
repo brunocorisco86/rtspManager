@@ -1,68 +1,79 @@
 {
+  "settings": {
+    "subnet": "192.168.1.0/24",
+    "auto_discover_new_cameras": true,
+    "scan_interval_seconds": 300,
+    "probe_ports": [554, 34567, 8899]
+  },
   "nvr": {
-    "ip": "192.168.1.20",
     "name": "NVR_Principal",
+    "mac": "00:12:43:24:4e:c6",
+    "ip": "192.168.1.20",
     "vendor": "Xiongmai (XM / NetSurveillance)",
-    "ports": {
-      "http": 80,
-      "rtsp": 554,
-      "xm_protocol": 34567
-    },
-    "default_paths": [
-      "user={user}&password={password}&channel={channel}&stream=0.sdp",
-      "cam/realmonitor?channel={channel}&subtype=0",
-      "h264/ch{channel}/main/av_stream"
-    ]
+    "user": "admin",
+    "password": "",
+    "rtsp_path_pattern": "user={user}&password={password}&channel={channel}&stream=0.sdp"
   },
   "cameras": [
     {
       "id": 1,
-      "name": "Camera_01",
+      "name": "Camera_Frente",
+      "mac": "a4:ef:15:30:79:32",
       "ip": "192.168.1.4",
-      "ports": [80, 554, 34567],
-      "rtsp_port": 554,
-      "protocol": "XM / RTSP"
+      "nvr_channel": 1,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     },
     {
       "id": 2,
-      "name": "Camera_02",
+      "name": "Camera_Fundos",
+      "mac": "c4:3c:b0:79:80:db",
       "ip": "192.168.1.5",
-      "ports": [80, 554, 34567],
-      "rtsp_port": 554,
-      "protocol": "XM / RTSP"
+      "nvr_channel": 2,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     },
     {
       "id": 3,
-      "name": "Camera_03",
+      "name": "Camera_Lateral",
+      "mac": "48:8f:4c:3d:13:14",
       "ip": "192.168.1.6",
-      "ports": [80, 554, 34567],
-      "rtsp_port": 554,
-      "protocol": "XM / RTSP"
+      "nvr_channel": 3,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     },
     {
       "id": 4,
-      "name": "Camera_04",
+      "name": "Camera_Garagem",
+      "mac": "38:be:ab:91:96:85",
       "ip": "192.168.1.10",
-      "ports": [80, 554, 34567],
-      "rtsp_port": 554,
-      "protocol": "XM / RTSP"
+      "nvr_channel": 4,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     },
     {
       "id": 5,
-      "name": "Camera_05",
+      "name": "Camera_Portao",
+      "mac": "38:be:ab:91:96:85",
       "ip": "192.168.1.11",
-      "ports": [80, 554, 34567],
-      "rtsp_port": 554,
-      "protocol": "XM / RTSP"
+      "nvr_channel": 5,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     },
     {
       "id": 6,
-      "name": "Camera_06",
+      "name": "Camera_Interna",
+      "mac": "00:13:00:01:61:7b",
       "ip": "192.168.1.31",
-      "ports": [80, 554, 8899, 34567],
-      "rtsp_port": 554,
-      "onvif_port": 8899,
-      "protocol": "XM / ONVIF / RTSP"
+      "nvr_channel": 6,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     }
   ]
 }

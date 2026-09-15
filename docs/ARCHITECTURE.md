@@ -1,80 +1,67 @@
 # 🏛️ Arquitetura do Sistema: 10_RTSP_Manager
 
-## 1. Visão Geral
+## 1. Visão Geral e Resiliência de Rede (MAC Address como SSOT)
 
-O **10_RTSP_Manager** é uma solução de orquestração de vídeo, monitoramento de saúde de CFTV e gateway WebRTC de baixa latência, projetada especificamente para operar em hardware de recursos limitados (Raspberry Pi 3 Model B, 1 GB RAM, Alpine Linux).
+Em redes locais com DHCP dinâmico, os endereços IP de câmeras e NVRs podem mudar após reinicializações do roteador ou expiração de concessões. O **10_RTSP_Manager** adota o **MAC Address** como Identificador Único Universal (Single Source of Truth) de cada dispositivo.
 
 ```mermaid
 flowchart TD
     subgraph LAN["Rede Local Residencial (192.168.1.0/24)"]
-        subgraph CFTV["Parque de Câmeras & Gravador"]
-            NVR["NVR Xiongmai (192.168.1.20)<br/>Portas 80, 554, 34567"]
-            CAM1["Cam 04 (192.168.1.4)"]
-            CAM2["Cam 05 (192.168.1.5)"]
-            CAM3["Cam 06 (192.168.1.6)"]
-            CAM4["Cam 10 (192.168.1.10)"]
-            CAM5["Cam 11 (192.168.1.11)"]
-            CAM6["Cam 31 (192.168.1.31)"]
+        subgraph CFTV["Parque de Câmeras & NVR"]
+            NVR["NVR Xiongmai<br/>MAC: 00:12:43:24:4e:c6<br/>IP Dinâmico"]
+            CAM1["Cam Frente<br/>MAC: a4:ef:15:30:79:32"]
+            CAM2["Cam Fundos<br/>MAC: c4:3c:b0:79:80:db"]
+            CAM3["Cam Lateral<br/>MAC: 48:8f:4c:3d:13:14"]
+            CAM4["Cam Garagem<br/>MAC: 38:be:ab:91:96:85"]
+            CAM5["Cam Portão<br/>MAC: 38:be:ab:91:96:85"]
+            CAM6["Cam Interna<br/>MAC: 00:13:00:01:61:7b"]
+            NEW_CAM["Nova Câmera Plugada<br/>(Detecção Automática 554)"]
         end
 
         subgraph PEIXE["Nó Peixe (192.168.1.99 | Alpine Linux)"]
-            GO2RTC["go2rtc Engine<br/>WebRTC / HLS / MSE<br/>Porta 1984 / 8555<br/>Consumo: ~25 MB RAM"]
-            WATCHDOG["CFTV Watchdog<br/>Port 554 & Ping Check"]
-            SNAP["Snapshot Service<br/>HTTP Frame Extractor"]
+            RESOLVER["Dynamic Resolver & Reconciler<br/>Lê ARP /proc/net/arp e ip neigh<br/>Mapeia MAC -> IP em Tempo Real"]
+            INVENTORY["Inventário Vivo<br/>config/inventory.json"]
+            GO2RTC_CONF["Gerador de Config<br/>config/go2rtc.yaml"]
+            GO2RTC["go2rtc Engine<br/>WebRTC / HLS / MSE<br/>Zero Transcoding (~25 MB RAM)"]
         end
     end
 
-    subgraph CLIENTS["Clientes e Destinos"]
-        SMARTPHONE["Smartphone / Tablet<br/>(Navegador Web / PWA / WebRTC)"]
-        NOTEBOOK["Notebook Bruno<br/>(Sem ActiveX / Sem Plugins)"]
-        NTFY["ntfy.sh / bruno-casa-dallas<br/>(Notificações Push com Foto)"]
-    end
-
-    NVR -->|RTSP H.264| GO2RTC
-    CAM1 & CAM2 & CAM3 & CAM4 & CAM5 & CAM6 -->|RTSP Passthrough| GO2RTC
+    CFTV -.->|Tabela ARP do Kernel| RESOLVER
+    RESOLVER -->|Atualiza Estado| INVENTORY
+    RESOLVER -->|Gera Configuração| GO2RTC_CONF
+    RESOLVER -->|Hot-Reload API /api/restart| GO2RTC
+    RESOLVER -->|Alerta Mudança de IP / Nova Cam| NTFY["ntfy.sh / bruno-casa-dallas"]
     
-    GO2RTC -->|WebRTC Latência 100ms| SMARTPHONE
-    GO2RTC -->|WebRTC / MSE| NOTEBOOK
-    
-    WATCHDOG -.->|Checagem 554| NVR
-    WATCHDOG -.->|Checagem 554| CAM1 & CAM2 & CAM3 & CAM4 & CAM5 & CAM6
-    WATCHDOG -->|Alertas Push| NTFY
-    SNAP -->|Envio de Foto| NTFY
+    GO2RTC -->|WebRTC Baixa Latência| CLIENTS["Smartphone & Notebook"]
 ```
 
 ---
 
-## 2. Princípio Fundamental: Zero Transcoding (Modo Passthrough)
+## 2. Mecanismo de Resolução Dinâmica (Reconciliation Loop)
 
-### O Problema da CPU no Raspberry Pi 3
-* O processador Broadcom BCM2837 (4x Cortex-A53 @ 1.2 GHz) **não possui capacidade de transcodificar vídeo H.264/H.265 via software** para múltiplos canais sem travar e superaquecer o nó.
-* Softwares pesados como MotionEye, Shinobi ou Frigate com detecção por CPU consomem 100% dos núcleos e esgotam o 1 GB de RAM.
+O script [`scripts/dynamic_resolver.py`](file:///home/brunoconter/Documentos/4_HOMELAB/10_RTSP_Manager/scripts/dynamic_resolver.py) atua como um controlador de reconciliação contínua:
 
-### A Solução
-* As câmeras já entregam os streams comprimidos em **H.264**.
-* O **`go2rtc`** funciona como um proxy/multiplexador em memória:
-  1. Conecta aos streams RTSP sob demanda.
-  2. Reempacota os pacotes RTP nativos diretamente nos protocolos suportados pelos navegadores modernos (**WebRTC** e **MSE/HLS**).
-  3. **Zero decodificação e zero recodificação de vídeo**: consumo de CPU permanece abaixo de **1 a 2%**, e a memória RAM não ultrapassa **30 MB**.
-
----
-
-## 3. Matriz de Portas e Serviços
-
-| Porta | Protocolo | Serviço / Função |
-| :--- | :--- | :--- |
-| `1984` | HTTP / WS | Painel Web do go2rtc, API REST, WebRTC signaling e snapshots |
-| `8554` | RTSP | Servidor de re-streaming RTSP interno |
-| `8555` | TCP / UDP | Transporte de mídia WebRTC (baixa latência) |
-| `554` | RTSP | Portas de origem do NVR e Câmeras |
+1. **Entrada Flexível:**
+   * O usuário pode cadastrar um dispositivo por **MAC**, por **IP estático**, ou por **ambos** em `config/cameras.json`.
+   * Se informado apenas o IP, o sistema aprende o MAC automaticamente na primeira varredura.
+2. **Resolução em Tempo Real:**
+   * A cada ciclo, o resolver lê `/proc/net/arp` e `ip neigh`.
+   * Envia um ping rápido (1 pacote) para aquecer o cache ARP de hosts em repouso.
+   * Identifica o IP atual correspondente a cada MAC cadastrado.
+3. **Detecção de Mudança de IP (IP-Change Event):**
+   * Se o IP de uma câmera mudar (ex: `192.168.1.4` -> `192.168.1.18`), o sistema:
+     1. Registra a mudança no `config/inventory.json`.
+     2. Dispara um alerta push via **ntfy** (`bruno-casa-dallas`): `🔄 A Camera_Frente mudou de IP: 192.168.1.4 -> 192.168.1.18`.
+     3. Regera o arquivo `config/go2rtc.yaml`.
+     4. Envia comando de reload para a API local do `go2rtc` sem derrubar os demais canais!
+4. **Descoberta Automática de Novas Câmeras (Hot-Plug):**
+   * Qualquer novo dispositivo que surgir na LAN com a porta `554` aberta é catalogado automaticamente como `Discovered_Cam_<IP>` e notificado no celular.
 
 ---
 
-## 4. Estratégia de Deploy no Nó Peixe
+## 3. Zero Transcoding (Modo Passthrough) no Raspberry Pi 3
 
-Oferecemos duas abordagens compatíveis:
-1. **Nativa via OpenRC (Recomendada para economia máxima):**
-   * Binário estático compilado em Go executado como daemon do sistema Alpine (`/usr/local/bin/go2rtc`).
-   * Sem overhead de containerização, gerenciado por `rc-service go2rtc start`.
-2. **Container Docker Leve:**
-   * Utilizando `alexxit/go2rtc:latest` com limites de memória configurados em 64 MB (`deploy.resources.limits.memory: 64M`).
+* O hardware do Raspberry Pi 3 (1 GB RAM, ARM Cortex-A53) **não transcodifica vídeo**.
+* O `go2rtc` apenas reempacota os pacotes RTP nativos H.264 em WebRTC ou MSE.
+* **Consumo de CPU:** Mantém-se abaixo de **1 a 2%** mesmo com 6 câmeras cadastradas.
+* **Consumo de RAM:** Estável em **~25 a 30 MB**.

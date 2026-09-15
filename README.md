@@ -1,124 +1,110 @@
 # 📹 10_RTSP_Manager
 
-**Gateway de Streaming CFTV em WebRTC, Monitoramento de Câmeras e Alertas de Snapshot**  
+**Gateway de Streaming CFTV em WebRTC com Resolução Dinâmica por MAC Address e Autodescoberta**  
 *Desenvolvido para o cluster Homelab (Nó Peixe - Raspberry Pi 3 / Alpine Linux).*
 
 ---
 
-## 📌 Contexto e Propósito
+## 📌 Principais Diferenciais e Arquitetura Resiliente
 
-Este projeto integra o sistema de CFTV residencial — composto por um **NVR Xiongmai Linux (`192.168.1.20`)** e **6 Câmeras IP RTSP** — ao ecossistema do homelab, resolvendo limitações crônicas de gravadores chineses:
-
-1. **Eliminação de Plugins Legados:** Câmeras e NVRs Xiongmai geralmente dependem de plugins ActiveX (`.ocx`) incompatíveis com smartphones e navegadores modernos. O `10_RTSP_Manager` converte os streams RTSP nativamente em **WebRTC** e **HLS/MSE** sem necessidade de plugins.
-2. **Zero Transcoding (Otimizado para Raspberry Pi 3):** O nó de produção **Peixe** possui 1 GB de RAM. A arquitetura opera em modo **passthrough**, reempacotando pacotes RTP com consumo de **~25 MB de RAM** e **< 1% de CPU**.
-3. **Monitoramento Ativo de Falhas:** Watchdog dedicado que valida a disponibilidade do NVR e de cada uma das câmeras, disparando alertas push no aplicativo **ntfy** (`bruno-casa-dallas`).
-4. **Captura de Snapshots:** Extração de frames JPEG sob demanda para envio de fotos diretamente para o celular.
-
----
-
-## 🌐 Mapeamento do Parque de CFTV
-
-| Dispositivo | Endereço IP | Portas Abertas | Protocolo / Papel |
-| :--- | :--- | :--- | :--- |
-| **NVR Central** | `192.168.1.20` | `80` (HTTP), `554` (RTSP), `34567` (XM) | Gravador central multi-canal Xiongmai |
-| **Câmera 01** | `192.168.1.4` | `80` (HTTP), `554` (RTSP), `34567` (XM) | Stream H.264 individual |
-| **Câmera 02** | `192.168.1.5` | `80` (HTTP), `554` (RTSP), `34567` (XM) | Stream H.264 individual |
-| **Câmera 03** | `192.168.1.6` | `80` (HTTP), `554` (RTSP), `34567` (XM) | Stream H.264 individual |
-| **Câmera 04** | `192.168.1.10` | `80` (HTTP), `554` (RTSP), `34567` (XM) | Stream H.264 individual |
-| **Câmera 05** | `192.168.1.11` | `80` (HTTP), `554` (RTSP), `34567` (XM) | Stream H.264 individual |
-| **Câmera 06** | `192.168.1.31` | `80` (HTTP), `554` (RTSP), `8899` (ONVIF) | Stream H.264 / ONVIF |
+1. **Resiliência Total a DHCP (Identidade por MAC Address):**
+   * Em redes domésticas sem IP estático configurado em cada câmera, o DHCP do roteador pode alterar os IPs após reboots.
+   * O **10_RTSP_Manager** usa o **MAC Address como Identificador Único Universal (SSOT)**.
+   * Se o IP de uma câmera mudar (ex: `192.168.1.4` -> `192.168.1.18`), o sistema detecta a mudança via tabela ARP do kernel, atualiza a stream do `go2rtc` dinamicamente e envia um alerta push no celular via **ntfy** (`bruno-casa-dallas`).
+2. **Entrada Flexível de Dispositivos:**
+   * Você pode cadastrar o NVR e as câmeras em `config/cameras.json` informando **apenas o MAC**, **apenas o IP**, ou **ambos**.
+   * Se você informar apenas o IP, o sistema aprende e grava o MAC automaticamente na primeira varredura.
+3. **Autodescoberta de Câmeras Plugadas (Hot-Plug):**
+   * O resolvedor varre a rede local e, se identificar qualquer nova câmera com porta RTSP `554` aberta, cataloga o novo canal e notifica no seu smartphone.
+4. **Zero Transcoding (Otimizado para Raspberry Pi 3 / 1 GB RAM):**
+   * O motor **go2rtc** opera em modo **passthrough**, reempacotando pacotes H.264 diretamente em WebRTC sem transcodificação por CPU.
+   * **Consumo de recursos no nó Peixe:** **~25 MB de RAM** e **< 1% de CPU**.
 
 ---
 
-## 📂 Estrutura do Repositório
+## 🌐 Parque de CFTV Mapeado
 
-```text
-10_RTSP_Manager/
-├── .gitignore              # Ignora ambientes virtuais, credenciais e logs
-├── .env.example            # Modelo de variáveis de ambiente
-├── docker-compose.yml      # Opção de deploy declarativo em container leve
-├── README.md               # Este documento
-├── config/
-│   ├── cameras.json        # Catálogo com IPs, portas e formatos de URL
-│   └── go2rtc.yaml         # Configuração de streams e portas do go2rtc
-├── docs/
-│   ├── ARCHITECTURE.md     # Detalhamento de arquitetura, fluxo e passthrough
-│   └── DEVELOPMENT_PLAN.md # Roteiro de desenvolvimento em 4 fases
-├── scripts/
-│   ├── install_alpine.sh   # Instalador nativo do go2rtc como serviço OpenRC
-│   ├── rtsp_probe.py       # Validador de streams, codecs e credenciais RTSP
-│   ├── capture_snapshot.py # Utilitário para captura de frames e envio ao ntfy
-│   └── cftv_watchdog.sh    # Watchdog que notifica queda de câmeras no celular
-└── tests/
-    └── test_rtsp_connectivity.py # Testes de validação de configuração e rede
+| Dispositivo | MAC Address (SSOT) | IP Atual | Portas | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **NVR Principal** | `00:12:43:24:4e:c6` | `192.168.1.20` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Frente** | `a4:ef:15:30:79:32` | `192.168.1.4` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Fundos** | `c4:3c:b0:79:80:db` | `192.168.1.5` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Lateral** | `48:8f:4c:3d:13:14` | `192.168.1.6` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Garagem** | `38:be:ab:91:96:85` | `192.168.1.10` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Portao** | `38:be:ab:91:96:85` | `192.168.1.10` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Interna** | `00:13:00:01:61:7b` | `192.168.1.31` | `80`, `554`, `8899` | ONLINE ✅ |
+
+---
+
+## ⚙️ Como Cadastrar Câmeras em `config/cameras.json`
+
+Você tem total liberdade para cadastrar por MAC, por IP, ou ambos:
+
+```json
+{
+  "name": "Camera_Frente",
+  "mac": "a4:ef:15:30:79:32",   // Opcional se tiver IP (recomendado para resiliência)
+  "ip": "192.168.1.4",          // Opcional se tiver MAC (usado como fallback)
+  "nvr_channel": 1,
+  "user": "admin",
+  "password": ""
+}
 ```
 
 ---
 
-## 🚀 Como Testar Localmente na sua Máquina
+## 🚀 Como Executar o Dynamic Resolver
 
-### 1. Clonar / Acessar a pasta
+### 1. Execução Manual de Reconciliação
 ```bash
-cd ~/Doc/4/10_RTSP_Manager
+python3 scripts/dynamic_resolver.py
 ```
+O script irá:
+1. Varrer o cache ARP do kernel.
+2. Resolver os IPs atuais de cada MAC.
+3. Notificar via `ntfy` caso algum IP tenha mudado ou nova câmera tenha sido encontrada.
+4. Salvar o estado em [`config/inventory.json`](file:///home/brunoconter/Documentos/4_HOMELAB/10_RTSP_Manager/config/inventory.json).
+5. Gerar automaticamente o [`config/go2rtc.yaml`](file:///home/brunoconter/Documentos/4_HOMELAB/10_RTSP_Manager/config/go2rtc.yaml).
+6. Solicitar hot-reload ao `go2rtc` sem derrubar os demais canais.
 
-### 2. Configurar Variáveis
+### 2. Execução Contínua em Background (Daemon)
 ```bash
-cp .env.example .env
-# Edite com suas credenciais do NVR se houver:
-# nano .env
-```
-
-### 3. Diagnosticar as Câmeras e Portas
-```bash
-python3 scripts/rtsp_probe.py
-```
-
-### 4. Executar Testes Estruturais
-```bash
-pytest tests/
+# Executa a reconciliação a cada 5 minutos (300 segundos):
+./scripts/reconcile_daemon.sh 300
 ```
 
 ---
 
 ## 🚢 Como Implantar no Nó Peixe (`ssh peixe`)
 
-### Opção A: Instalação Nativa via OpenRC (Recomendada - Consumo Mínimo de ~20 MB)
-1. Envie a configuração e o script de instalação para o nó Peixe:
+1. Copie o projeto para o nó Peixe:
    ```bash
-   scp config/go2rtc.yaml peixe:/etc/go2rtc/go2rtc.yaml
-   scp scripts/install_alpine.sh peixe:/tmp/install_alpine.sh
+   scp -r ~/Doc/4/10_RTSP_Manager peixe:/home/bruno/
    ```
-2. Conecte no nó Peixe e execute:
+2. Instale o go2rtc nativo no Alpine:
    ```bash
    ssh peixe
-   chmod +x /tmp/install_alpine.sh && /tmp/install_alpine.sh
+   cd /home/bruno/10_RTSP_Manager
+   chmod +x scripts/*.sh scripts/*.py
+   ./scripts/install_alpine.sh
    rc-service go2rtc start
    rc-update add go2rtc default
    ```
-3. Acesse a interface Web no navegador:
-   * **URL Local:** `http://192.168.1.99:1984`
-   * **Acesso Remoto Seguro:** Conecte o celular na Tailnet e acerte `http://100.88.42.19:1984`.
-
-### Opção B: Deploy via Docker
-```bash
-scp -r ~/Doc/4/10_RTSP_Manager peixe:/home/bruno/
-ssh peixe "cd /home/bruno/10_RTSP_Manager && docker compose up -d"
-```
-
----
-
-## 📸 Testando Snapshots e Notificações com Foto
-
-Você pode extrair uma foto instantânea de qualquer câmera e disparar para o seu celular pelo **ntfy**:
-
-```bash
-# Captura via go2rtc e envia foto com push para bruno-casa-dallas:
-python3 scripts/capture_snapshot.py --src nvr_canal1 --ntfy --title "Portão Frente 📸"
-```
+3. Adicione o daemon no crontab do Peixe para auto-reconciliação a cada 5 minutos:
+   ```bash
+   crontab -e
+   # Adicione a linha:
+   # */5 * * * * python3 /home/bruno/10_RTSP_Manager/scripts/dynamic_resolver.py > /dev/null 2>&1
+   ```
+4. Abra o painel WebRTC no navegador:
+   * **Local:** `http://192.168.1.99:1984`
+   * **Remoto seguro via Tailnet:** `http://100.88.42.19:1984`
 
 ---
 
-## 📚 Documentações Complementares
-* [Arquitetura Detalhada e Passthrough](docs/ARCHITECTURE.md)
-* [Plano de Desenvolvimento em Fases](docs/DEVELOPMENT_PLAN.md)
+## 🧪 Testes Automatizados
+
+```bash
+pytest tests/
+```
+Valida a normalização de MACs, leitura da tabela ARP, geração de YAML e integridade dos schemas JSON.
