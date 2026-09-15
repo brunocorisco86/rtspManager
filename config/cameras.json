@@ -1,0 +1,68 @@
+{
+  "nvr": {
+    "ip": "192.168.1.20",
+    "name": "NVR_Principal",
+    "vendor": "Xiongmai (XM / NetSurveillance)",
+    "ports": {
+      "http": 80,
+      "rtsp": 554,
+      "xm_protocol": 34567
+    },
+    "default_paths": [
+      "user={user}&password={password}&channel={channel}&stream=0.sdp",
+      "cam/realmonitor?channel={channel}&subtype=0",
+      "h264/ch{channel}/main/av_stream"
+    ]
+  },
+  "cameras": [
+    {
+      "id": 1,
+      "name": "Camera_01",
+      "ip": "192.168.1.4",
+      "ports": [80, 554, 34567],
+      "rtsp_port": 554,
+      "protocol": "XM / RTSP"
+    },
+    {
+      "id": 2,
+      "name": "Camera_02",
+      "ip": "192.168.1.5",
+      "ports": [80, 554, 34567],
+      "rtsp_port": 554,
+      "protocol": "XM / RTSP"
+    },
+    {
+      "id": 3,
+      "name": "Camera_03",
+      "ip": "192.168.1.6",
+      "ports": [80, 554, 34567],
+      "rtsp_port": 554,
+      "protocol": "XM / RTSP"
+    },
+    {
+      "id": 4,
+      "name": "Camera_04",
+      "ip": "192.168.1.10",
+      "ports": [80, 554, 34567],
+      "rtsp_port": 554,
+      "protocol": "XM / RTSP"
+    },
+    {
+      "id": 5,
+      "name": "Camera_05",
+      "ip": "192.168.1.11",
+      "ports": [80, 554, 34567],
+      "rtsp_port": 554,
+      "protocol": "XM / RTSP"
+    },
+    {
+      "id": 6,
+      "name": "Camera_06",
+      "ip": "192.168.1.31",
+      "ports": [80, 554, 8899, 34567],
+      "rtsp_port": 554,
+      "onvif_port": 8899,
+      "protocol": "XM / ONVIF / RTSP"
+    }
+  ]
+}

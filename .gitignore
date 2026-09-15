@@ -1,0 +1,20 @@
+# Ambientes virtuais e cache Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Arquivos de ambiente e segredos locais
+.env
+*.local
+credentials.json
+
+# Binários baixados e temporários
+go2rtc
+go2rtc_linux_arm64
+go2rtc_linux_amd64
+*.log
+/snapshots/*.jpg
+/recordings/*.mp4
+.DS_Store
