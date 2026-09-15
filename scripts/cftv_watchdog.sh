@@ -1,51 +1,68 @@
 #!/bin/sh
 # ==============================================================================
-# CCTV Watchdog - Monitor de Integridade do Parque de Câmeras e NVR
+# CCTV Watchdog - Monitor de Integridade dos Canais do NVR (10_RTSP_Manager)
 # ==============================================================================
-# Verifica a porta RTSP 554 de cada uma das 6 câmeras e do NVR.
-# Envia alerta push imediato via notifica se alguma câmera cair ou voltar.
+# Monitora a saúde do NVR (192.168.1.20:554) e dos canais ativos (02, 03, 04, 05, 06).
+# - Dispara alertas ntfy (bruno-casa-dallas) APENAS na transição de estado (sem fadiga).
+# - Se o NVR cair, alerta o NVR e suprime alertas repetidos de cada canal.
+# - Testa fluxo real de vídeo via go2rtc (/api/frame.jpeg).
 # ==============================================================================
 
 STATE_DIR="/tmp/cftv_states"
 mkdir -p "$STATE_DIR"
 
-check_camera() {
-    NAME="$1"
-    IP="$2"
-    PORT="${3:-554}"
+NVR_IP="192.168.1.20"
+NVR_STATE_FILE="${STATE_DIR}/NVR_Principal.state"
+PREV_NVR_STATE="UP"
+[ -f "$NVR_STATE_FILE" ] && PREV_NVR_STATE=$(cat "$NVR_STATE_FILE")
 
-    STATE_FILE="${STATE_DIR}/${NAME}.state"
-    PREV_STATE="UP"
-    [ -f "$STATE_FILE" ] && PREV_STATE=$(cat "$STATE_FILE")
+# 1. Verifica integridade do NVR Principal
+if nc -z -w 2 "$NVR_IP" 554 > /dev/null 2>&1; then
+    CURRENT_NVR_STATE="UP"
+else
+    CURRENT_NVR_STATE="DOWN"
+fi
+echo "$CURRENT_NVR_STATE" > "$NVR_STATE_FILE"
 
-    if nc -z -w 2 "$IP" "$PORT" > /dev/null 2>&1; then
-        CURRENT_STATE="UP"
-    else
-        CURRENT_STATE="DOWN"
-    fi
+# Transição do NVR
+if [ "$PREV_NVR_STATE" = "UP" ] && [ "$CURRENT_NVR_STATE" = "DOWN" ]; then
+    notifica -t "🚨 CFTV: NVR Principal Offline!" \
+             -p 5 \
+             -g "rotating_light,nvr" \
+             "O NVR Principal ($NVR_IP:554) parou de responder às $(date +'%H:%M:%S'). Possível queda de energia ou cabo de rede desconectado."
+elif [ "$PREV_NVR_STATE" = "DOWN" ] && [ "$CURRENT_NVR_STATE" = "UP" ]; then
+    notifica -t "✅ CFTV: NVR Principal Restabelecido" \
+             -p 3 \
+             -g "white_check_mark,nvr" \
+             "O NVR Principal ($NVR_IP) voltou a operar normalmente às $(date +'%H:%M:%S')."
+fi
 
-    echo "$CURRENT_STATE" > "$STATE_FILE"
+# 2. Se o NVR estiver UP, testa fluxo real de vídeo de cada um dos 5 canais ativos
+if [ "$CURRENT_NVR_STATE" = "UP" ]; then
+    for CH in 02 03 04 05 06; do
+        CH_STREAM="canal_${CH}"
+        CH_STATE_FILE="${STATE_DIR}/${CH_STREAM}.state"
+        PREV_CH_STATE="UP"
+        [ -f "$CH_STATE_FILE" ] && PREV_CH_STATE=$(cat "$CH_STATE_FILE")
 
-    if [ "$PREV_STATE" = "UP" ] && [ "$CURRENT_STATE" = "DOWN" ]; then
-        notifica -t "🚨 CFTV: $NAME Caiu!" \
-                 -p 4 \
-                 -g "rotating_light,camera" \
-                 "A câmera $NAME ($IP:$PORT) parou de responder ao RTSP às $(date +'%H:%M:%S')."
-    elif [ "$PREV_STATE" = "DOWN" ] && [ "$CURRENT_STATE" = "UP" ]; then
-        notifica -t "✅ CFTV: $NAME Recuperada" \
-                 -p 3 \
-                 -g "white_check_mark,camera" \
-                 "A câmera $NAME ($IP) voltou a operar normalmente às $(date +'%H:%M:%S')."
-    fi
-}
+        # Testa captura de quadro via go2rtc local
+        if curl -s -f -m 3 "http://127.0.0.1:1984/api/frame.jpeg?src=${CH_STREAM}" -o /dev/null; then
+            CURRENT_CH_STATE="UP"
+        else
+            CURRENT_CH_STATE="DOWN"
+        fi
+        echo "$CURRENT_CH_STATE" > "$CH_STATE_FILE"
 
-# NVR Central
-check_camera "NVR_Principal" "192.168.1.20" 554
-
-# 6 Câmeras Individuais
-check_camera "Camera_04" "192.168.1.4" 554
-check_camera "Camera_05" "192.168.1.5" 554
-check_camera "Camera_06" "192.168.1.6" 554
-check_camera "Camera_10" "192.168.1.10" 554
-check_camera "Camera_11" "192.168.1.11" 554
-check_camera "Camera_31" "192.168.1.31" 554
+        if [ "$PREV_CH_STATE" = "UP" ] && [ "$CURRENT_CH_STATE" = "DOWN" ]; then
+            notifica -t "⚠️ CFTV: Canal ${CH} Sem Vídeo" \
+                     -p 4 \
+                     -g "warning,camera" \
+                     "O Canal ${CH} do NVR perdeu o sinal de vídeo às $(date +'%H:%M:%S'). Verifique alimentação ou conexão da câmera."
+        elif [ "$PREV_CH_STATE" = "DOWN" ] && [ "$CURRENT_CH_STATE" = "UP" ]; then
+            notifica -t "✅ CFTV: Canal ${CH} Restabelecido" \
+                     -p 3 \
+                     -g "white_check_mark,camera" \
+                     "O Canal ${CH} do NVR voltou a transmitir vídeo normalmente às $(date +'%H:%M:%S')."
+        fi
+    done
+fi
