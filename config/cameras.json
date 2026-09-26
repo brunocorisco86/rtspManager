@@ -75,6 +75,16 @@
       "user": "admin",
       "password": "",
       "enabled": true
+    },
+    {
+      "id": 7,
+      "name": "Camera_Varanda_16",
+      "mac": "d4:a3:eb:89:bd:f4",
+      "ip": "192.168.1.16",
+      "nvr_channel": 1,
+      "user": "admin",
+      "password": "",
+      "enabled": true
     }
   ]
 }

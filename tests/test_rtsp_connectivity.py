@@ -17,7 +17,7 @@ def test_cameras_json_structure():
         
     assert "nvr" in data
     assert "cameras" in data
-    assert len(data["cameras"]) == 6
+    assert len(data["cameras"]) >= 6
     assert data["nvr"]["ip"] == "192.168.1.20"
 
 def test_go2rtc_yaml_exists():

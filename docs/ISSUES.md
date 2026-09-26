@@ -6,10 +6,12 @@ Este documento centraliza as issues técnicas, anomalias de hardware e investiga
 
 ## 📌 Issue #001: Falha de Sinal de Vídeo no Canal 01 (NVR Xiongmai)
 
-* **Status:** 🟡 **ABERTA (Aguardando Inspeção de Hardware em Campo)**
-* **Componente:** NVR Principal (`192.168.1.20:554` - Canal 1) / Câmera associada
+* **Status:** 🟢 **RESOLVIDA (2026-09-26)**
+* **Componente:** Câmera Varanda (`192.168.1.16:554` - Canal 1) / go2rtc Peixe
 * **Data de Abertura:** 2026-09-15
-* **Severidade:** Média (Demais 5 canais [02, 03, 04, 05, 06] 100% operacionais)
+* **Data de Resolução:** 2026-09-26
+* **Solução:** Câmera física Xiongmai Dual-Lens (Varanda) localizada no IP `192.168.1.16` (MAC `d4:a3:eb:89:bd:f4`). Stream direto RTSP integrado com sucesso ao `go2rtc` nativo com perfil H.264 para navegadores.
+* **Severidade:** Média (Todos os 6 canais [01, 02, 03, 04, 05, 06] 100% operacionais)
 
 ---
 

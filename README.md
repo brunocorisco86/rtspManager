@@ -27,6 +27,7 @@
 | Dispositivo | MAC Address (SSOT) | IP Atual | Portas | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **NVR Principal** | `00:12:43:24:4e:c6` | `192.168.1.20` | `80`, `554`, `34567` | ONLINE ✅ |
+| **Camera Varanda (Canal 1)** | `d4:a3:eb:89:bd:f4` | `192.168.1.16` | `80`, `554`, `8899`, `34567` | ONLINE ✅ |
 | **Camera Frente** | `a4:ef:15:30:79:32` | `192.168.1.4` | `80`, `554`, `34567` | ONLINE ✅ |
 | **Camera Fundos** | `c4:3c:b0:79:80:db` | `192.168.1.5` | `80`, `554`, `34567` | ONLINE ✅ |
 | **Camera Lateral** | `48:8f:4c:3d:13:14` | `192.168.1.6` | `80`, `554`, `34567` | ONLINE ✅ |
@@ -34,8 +35,8 @@
 | **Camera Portao** | `38:be:ab:91:96:85` | `192.168.1.10` | `80`, `554`, `34567` | ONLINE ✅ |
 | **Camera Interna** | `00:13:00:01:61:7b` | `192.168.1.31` | `80`, `554`, `8899` | ONLINE ✅ |
 
-> [!NOTE]
-> **Pendências de Hardware:** O Canal 01 do NVR está sob investigação de hardware (alimentação/cabeamento/status do canal). Consulte o rastreador de pendências em [`docs/ISSUES.md`](file:///home/brunoconter/Doc/4/10_RTSP_Manager/docs/ISSUES.md).
+> [!TIP]
+> **Canal 01 Restabelecido:** O Canal 01 foi integrado diretamente com a câmera Dual-Lens da Varanda (`192.168.1.16:554`), com resolução 2.5K HEVC nativo e helper H.264 para navegadores. A Issue #001 foi resolvida. Consulte [`docs/ISSUES.md`](file:///home/brunoconter/Documentos/4_HOMELAB/10_RTSP_Manager/docs/ISSUES.md).
 
 ---
 

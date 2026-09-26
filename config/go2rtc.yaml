@@ -1,6 +1,6 @@
 # ==============================================================================
 # go2rtc Configuration - 10_RTSP_Manager
-# Canais 2, 3, 4, 5 e 6 do NVR Principal (192.168.1.20)
+# Canais 1, 2, 3, 4, 5 e 6 do Parque de CFTV
 # ==============================================================================
 
 api:
@@ -17,6 +17,12 @@ webrtc:
     - stun:stun.l.google.com:19302
 
 streams:
+  # Canal 1 (Varanda - 2304x2592 HEVC nativo e transcode H.264 para navegadores)
+  canal_01:
+    - rtsp://admin@192.168.1.16:554/user=admin&password=&channel=1&stream=0.sdp#transport=tcp
+  canal_01_h264:
+    - ffmpeg:canal_01#video=h264
+
   # Canal 2 (720p HD nativo H.264 - 0% CPU)
   canal_02:
     - rtsp://brunoconter:blurbang@192.168.1.20:554/user=brunoconter&password=blurbang&channel=2&stream=0.sdp#transport=tcp

@@ -112,12 +112,12 @@ if [ "$MODE" != "--report" ]; then
     fi
 fi
 
-# Se o NVR estiver UP, checa os 5 canais ativos
+# Se o NVR estiver UP, checa os 6 canais ativos
 ACTIVE_CHANNELS_UP=0
-TOTAL_ACTIVE_CHANNELS=5
+TOTAL_ACTIVE_CHANNELS=6
 
 if [ "$CURRENT_NVR_STATE" = "UP" ]; then
-    for CH in 02 03 04 05 06; do
+    for CH in 01 02 03 04 05 06; do
         CH_STREAM="canal_${CH}"
         CH_STATE_FILE="${STATE_DIR}/${CH_STREAM}.state"
         PREV_CH_STATE="UP"
