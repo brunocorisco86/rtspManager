@@ -121,4 +121,6 @@ O sistema conta com um orquestrador passivo de eventos conectado ao NVR na porta
 * **Escuta Passiva (`scripts/dvr_event_listener.py`):** Serviço OpenRC no nó Alpine (`cftv-events`). Captura detecções de humanos e salva snapshots no pendrive cinza (`/mnt/pendrive_cinza/cftv_events/`).
 * **Alerta Instantâneo:** Envia push com foto no app **ntfy** (`bruno-casa-dallas`) com cooldown anti-duplicação.
 * **Relatório Noturno às 21:00 (`scripts/generate_daily_report.py`):** Cron diário que compila gráfico de série temporal (Matplotlib) e documento executivo em PDF (ReportLab) com as fotos das pessoas detectadas, despachando direto para o smartphone.
+* **Política de Prune e Higienização (`scripts/prune_cftv_storage.py`):** Elimina automaticamente fotos e pastas com mais de 31 dias, limpando o banco SQLite e executando `VACUUM` para liberar espaço físico no pendrive cinza.
+
 

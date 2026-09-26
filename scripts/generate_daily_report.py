@@ -294,10 +294,13 @@ def get_disk_info(path: Path) -> dict:
     except Exception:
         return {"free_gb": "N/A", "used_pct": "N/A"}
 
+from prune_cftv_storage import prune_storage
+
 def main():
     parser = argparse.ArgumentParser(description="Gerador de Relatório Diário CFTV às 21h")
     parser.add_argument("--date", help="Data no formato YYYY-MM-DD (padrão: hoje)")
     parser.add_argument("--no-ntfy", action="store_true", help="Não envia o PDF para o ntfy")
+    parser.add_argument("--retention-days", type=int, default=31, help="Dias de retenção das fotos (padrão: 31)")
     args = parser.parse_args()
 
     target_date = args.date or datetime.now().strftime("%Y-%m-%d")
@@ -305,6 +308,10 @@ def main():
     db_path = base_dir / "events.db"
     reports_dir = base_dir / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
+
+    # Higienização de armazenamento: elimina fotos com mais de 31 dias antes de gerar o relatório
+    print(f"🧹 Verificando retenção de dados (fotos > {args.retention_days} dias)...")
+    prune_storage(base_dir, max_days=args.retention_days)
 
     print(f"🔍 Consultando eventos para {target_date} em {db_path}...")
     events = query_daily_events(db_path, target_date)

@@ -70,3 +70,48 @@ def test_report_generation(tmp_path):
     assert generate_pdf_report(events, today, plot_file, pdf_file, disk_info) is True
     assert pdf_file.exists()
     assert pdf_file.stat().st_size > 0
+
+def test_prune_storage(tmp_path):
+    from datetime import timedelta
+    from prune_cftv_storage import prune_storage
+
+    # Cria pasta antiga (40 dias atrás)
+    old_date = (datetime.now() - timedelta(days=40)).strftime("%Y-%m-%d")
+    old_dir = tmp_path / old_date
+    old_dir.mkdir()
+    (old_dir / "old_frame.jpg").write_bytes(b"dummy_data_12345")
+
+    # Cria pasta recente (5 dias atrás)
+    recent_date = (datetime.now() - timedelta(days=5)).strftime("%Y-%m-%d")
+    recent_dir = tmp_path / recent_date
+    recent_dir.mkdir()
+    (recent_dir / "recent_frame.jpg").write_bytes(b"dummy_data_67890")
+
+    # Banco SQLite com registros para as duas datas
+    db_file = tmp_path / "events.db"
+    db = EventDatabase(db_file)
+    db.record_event(0, "Canal 1", "HumanDetect", str(old_dir / "old_frame.jpg"), 100)
+    # Atualiza manualmente a data do primeiro registro para a data antiga
+    with sqlite3.connect(db_file) as conn:
+        conn.execute("UPDATE events SET date = ? WHERE id = 1", (old_date,))
+        conn.commit()
+
+    db.record_event(0, "Canal 1", "HumanDetect", str(recent_dir / "recent_frame.jpg"), 100)
+
+    # Executa prune com limite de 31 dias
+    stats = prune_storage(tmp_path, max_days=31)
+
+    assert stats["dirs_removed"] == 1
+    assert stats["files_removed"] == 1
+    assert stats["db_rows_deleted"] == 1
+
+    # Pasta antiga foi apagada, recente foi mantida
+    assert not old_dir.exists()
+    assert recent_dir.exists()
+
+    # SQLite preservou apenas o evento recente
+    with sqlite3.connect(db_file) as conn:
+        c = conn.cursor()
+        c.execute("SELECT COUNT(*) FROM events")
+        assert c.fetchone()[0] == 1
+

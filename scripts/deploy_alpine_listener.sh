@@ -20,8 +20,10 @@ echo "📦 Copiando scripts para $TARGET_DIR..."
 scp scripts/dvr_client.py $ALPINE_HOST:$TARGET_DIR/
 scp scripts/dvr_event_listener.py $ALPINE_HOST:$TARGET_DIR/
 scp scripts/generate_daily_report.py $ALPINE_HOST:$TARGET_DIR/
+scp scripts/prune_cftv_storage.py $ALPINE_HOST:$TARGET_DIR/
+scp scripts/audit_nvr_config.py $ALPINE_HOST:$TARGET_DIR/
 
-ssh $ALPINE_HOST "chmod +x $TARGET_DIR/dvr_client.py $TARGET_DIR/dvr_event_listener.py $TARGET_DIR/generate_daily_report.py"
+ssh $ALPINE_HOST "chmod +x $TARGET_DIR/dvr_client.py $TARGET_DIR/dvr_event_listener.py $TARGET_DIR/generate_daily_report.py $TARGET_DIR/prune_cftv_storage.py $TARGET_DIR/audit_nvr_config.py"
 
 # 3. Cria serviço OpenRC no Alpine
 echo "⚙️ Configurando serviço OpenRC /etc/init.d/$SERVICE_NAME..."
