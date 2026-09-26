@@ -52,10 +52,12 @@ echo "🔄 Habilitando e iniciando serviço $SERVICE_NAME..."
 ssh $ALPINE_HOST "rc-update add $SERVICE_NAME default 2>/dev/null || true"
 ssh $ALPINE_HOST "rc-service $SERVICE_NAME restart"
 
-# 5. Configura cronjob para o Relatório Diário Noturno às 21:00
-echo "⏰ Configurando Crontab para o Relatório Diário às 21:00..."
+# 5. Configura cronjobs para Relatório Diário (21:00) e Prune Noturno Dedicado (02:30)
+echo "⏰ Configurando Crontab (Relatório às 21:00 e Prune às 02:30)..."
 ssh $ALPINE_HOST "
-(crontab -l 2>/dev/null | grep -v 'generate_daily_report.py' ; echo '0 21 * * * /usr/bin/python3 /usr/local/bin/generate_daily_report.py >> /var/log/cftv-report.log 2>&1') | crontab -
+(crontab -l 2>/dev/null | grep -v 'generate_daily_report.py' | grep -v 'prune_cftv_storage.py' ; \
+ echo '0 21 * * * /usr/bin/python3 /usr/local/bin/generate_daily_report.py >> /var/log/cftv-report.log 2>&1' ; \
+ echo '30 02 * * * /usr/bin/python3 /usr/local/bin/prune_cftv_storage.py --days 31 >> /var/log/cftv-prune.log 2>&1') | crontab -
 "
 
 echo "✅ Deploy concluído com sucesso no nó Alpine!"
