@@ -1,0 +1,1264 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "id": "scripts_dynamic_resolver_check_port",
+      "label": "check_port()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "check_port()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L80"
+    },
+    {
+      "id": "scripts_dynamic_resolver_get_arp_table",
+      "label": "get_arp_table()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "get_arp_table()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L39"
+    },
+    {
+      "id": "scripts_dynamic_resolver_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L176"
+    },
+    {
+      "id": "scripts_dynamic_resolver_normalize_mac",
+      "label": "normalize_mac()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "normalize_mac()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L31"
+    },
+    {
+      "id": "scripts_dynamic_resolver_ping_host",
+      "label": "ping_host()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "ping_host()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L88"
+    },
+    {
+      "id": "scripts_dynamic_resolver_reload_go2rtc",
+      "label": "reload_go2rtc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "reload_go2rtc()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L167"
+    },
+    {
+      "id": "scripts_dynamic_resolver_send_notification",
+      "label": "send_notification()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "norm_label": "send_notification()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L95"
+    },
+    {
+      "id": "scripts_dynamic_resolver_generate_go2rtc_yaml",
+      "label": "generate_go2rtc_yaml()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "norm_label": "generate_go2rtc_yaml()",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L114"
+    },
+    {
+      "id": "tests_test_dynamic_resolver_test_generate_go2rtc_yaml",
+      "label": "test_generate_go2rtc_yaml()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "norm_label": "test_generate_go2rtc_yaml()",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L20"
+    },
+    {
+      "id": "tests_test_dynamic_resolver_test_normalize_mac",
+      "label": "test_normalize_mac()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "norm_label": "test_normalize_mac()",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L14"
+    },
+    {
+      "id": "tests_test_rtsp_connectivity_test_cameras_json_structure",
+      "label": "test_cameras_json_structure()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "test_cameras_json_structure()",
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L11"
+    },
+    {
+      "id": "tests_test_rtsp_connectivity_test_go2rtc_yaml_exists",
+      "label": "test_go2rtc_yaml_exists()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "test_go2rtc_yaml_exists()",
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L23"
+    },
+    {
+      "id": "tests_test_rtsp_connectivity_test_nvr_network_connectivity",
+      "label": "test_nvr_network_connectivity()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "test_nvr_network_connectivity()",
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L30"
+    },
+    {
+      "id": "scripts_capture_snapshot_capture_via_ffmpeg",
+      "label": "capture_via_ffmpeg()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "capture_via_ffmpeg()",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L19"
+    },
+    {
+      "id": "scripts_capture_snapshot_capture_via_go2rtc",
+      "label": "capture_via_go2rtc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "capture_via_go2rtc()",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L37"
+    },
+    {
+      "id": "scripts_capture_snapshot_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L69"
+    },
+    {
+      "id": "scripts_capture_snapshot_send_to_ntfy_curl",
+      "label": "send_to_ntfy_curl()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "send_to_ntfy_curl()",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L51"
+    },
+    {
+      "id": "scripts_rtsp_probe_check_port",
+      "label": "check_port()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "norm_label": "check_port()",
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L15"
+    },
+    {
+      "id": "scripts_rtsp_probe_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L50"
+    },
+    {
+      "id": "scripts_rtsp_probe_probe_rtsp_url",
+      "label": "probe_rtsp_url()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "norm_label": "probe_rtsp_url()",
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L22"
+    },
+    {
+      "id": "scripts_dynamic_resolver",
+      "label": "Dynamic Resolver",
+      "_origin": "ast",
+      "community": 0,
+      "description": "Orquestrador de auto-recupera\u00e7\u00e3o que mapeia MAC Address (SSOT) via tabela ARP e atualiza go2rtc dinamicamente",
+      "file_type": "concept",
+      "norm_label": "dynamic resolver",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L1",
+      "type": "component"
+    },
+    {
+      "id": "scripts_dynamic_resolver_rationale_168",
+      "label": "Solicita reload dos streams via API REST do go2rtc (se estiver em execu\u00e7\u00e3o)",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "solicita reload dos streams via api rest do go2rtc (se estiver em execucao)",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L168"
+    },
+    {
+      "id": "scripts_dynamic_resolver_rationale_40",
+      "label": "L\u00ea a tabela ARP do kernel (/proc/net/arp e ip neigh) Retorna mapeamentos: {mac:\u2026",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "le a tabela arp do kernel (/proc/net/arp e ip neigh) retorna mapeamentos: {mac:...",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L40"
+    },
+    {
+      "id": "scripts_dynamic_resolver_rationale_81",
+      "label": "Testa se uma porta TCP est\u00e1 respondendo",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "testa se uma porta tcp esta respondendo",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L81"
+    },
+    {
+      "id": "scripts_dynamic_resolver_rationale_89",
+      "label": "Aquece o cache ARP com um ping ICMP r\u00e1pido de 1 pacote",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "aquece o cache arp com um ping icmp rapido de 1 pacote",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L89"
+    },
+    {
+      "id": "scripts_dynamic_resolver_rationale_96",
+      "label": "Dispara notifica\u00e7\u00e3o via comando 'notifica' ou HTTP direto ntfy",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "rationale",
+      "norm_label": "dispara notificacao via comando 'notifica' ou http direto ntfy",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L96"
+    },
+    {
+      "id": "scripts_homelab_watchdog",
+      "label": "Homelab Watchdog",
+      "_origin": "ast",
+      "community": 1,
+      "description": "Monitor de integridade de servi\u00e7os, rede e v\u00eddeo CFTV com supress\u00e3o de alertas e relat\u00f3rio matinal",
+      "file_type": "concept",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "homelab watchdog",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L1",
+      "type": "component"
+    },
+    {
+      "id": "scripts_homelab_watchdog_check_cftv_channel",
+      "label": "check_cftv_channel()",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "check_cftv_channel()",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L57"
+    },
+    {
+      "id": "scripts_homelab_watchdog_check_service",
+      "label": "check_service()",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "check_service()",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L14"
+    },
+    {
+      "id": "scripts_homelab_watchdog_sh__entry",
+      "label": "homelab-watchdog.sh script",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "homelab-watchdog.sh script",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_setup_kuma",
+      "label": "setup_kuma.py",
+      "_origin": "ast",
+      "community": 10,
+      "file_type": "code",
+      "norm_label": "setup_kuma.py",
+      "source_file": "scripts/setup_kuma.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_test_dynamic_resolver",
+      "label": "test_dynamic_resolver.py",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "norm_label": "test_dynamic_resolver.py",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_dynamic_resolver_rationale_115",
+      "label": "Gera o arquivo go2rtc.yaml com base nos IPs e canais resolvidos dinamicamente",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "rationale",
+      "norm_label": "gera o arquivo go2rtc.yaml com base nos ips e canais resolvidos dinamicamente",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L115"
+    },
+    {
+      "id": "tests_test_dynamic_resolver_rationale_1",
+      "label": "Testes unit\u00e1rios do Dynamic Resolver e Resolu\u00e7\u00e3o por MAC Address",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "rationale",
+      "norm_label": "testes unitarios do dynamic resolver e resolucao por mac address",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_test_rtsp_connectivity",
+      "label": "test_rtsp_connectivity.py",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "norm_label": "test_rtsp_connectivity.py",
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_test_rtsp_connectivity_rationale_1",
+      "label": "Testes de conectividade e valida\u00e7\u00e3o estrutural do 10_RTSP_Manager",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "rationale",
+      "norm_label": "testes de conectividade e validacao estrutural do 10_rtsp_manager",
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_test_rtsp_connectivity_rationale_31",
+      "label": "Valida se o NVR est\u00e1 acess\u00edvel na rede local",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "rationale",
+      "norm_label": "valida se o nvr esta acessivel na rede local",
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L31"
+    },
+    {
+      "id": "scripts_capture_snapshot",
+      "label": "capture_snapshot.py",
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "capture_snapshot.py",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_rtsp_probe",
+      "label": "rtsp_probe.py",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "norm_label": "rtsp_probe.py",
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_cftv_watchdog",
+      "label": "cftv_watchdog.sh",
+      "_origin": "ast",
+      "community": 7,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "cftv_watchdog.sh",
+      "source_file": "scripts/cftv_watchdog.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_cftv_watchdog_sh__entry",
+      "label": "cftv_watchdog.sh script",
+      "_origin": "ast",
+      "community": 7,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "cftv_watchdog.sh script",
+      "source_file": "scripts/cftv_watchdog.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_install_alpine",
+      "label": "install_alpine.sh",
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "install_alpine.sh",
+      "source_file": "scripts/install_alpine.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_install_alpine_sh__entry",
+      "label": "install_alpine.sh script",
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "install_alpine.sh script",
+      "source_file": "scripts/install_alpine.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_reconcile_daemon",
+      "label": "reconcile_daemon.sh",
+      "_origin": "ast",
+      "community": 9,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "reconcile_daemon.sh",
+      "source_file": "scripts/reconcile_daemon.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_reconcile_daemon_sh__entry",
+      "label": "reconcile_daemon.sh script",
+      "_origin": "ast",
+      "community": 9,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "reconcile_daemon.sh script",
+      "source_file": "scripts/reconcile_daemon.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "Ntfy_Alerts",
+      "label": "ntfy Alertas",
+      "community": 1,
+      "description": "Canal push de notifica\u00e7\u00f5es para o t\u00f3pico bruno-casa-dallas",
+      "file_type": "concept",
+      "norm_label": "ntfy alertas",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "type": "notification"
+    },
+    {
+      "id": "Uptime_Kuma",
+      "label": "Uptime Kuma",
+      "community": 1,
+      "description": "Painel central de status com 8 monitores ativos na porta 3001",
+      "file_type": "concept",
+      "norm_label": "uptime kuma",
+      "source_file": "docs/SESSIONS_2026-09-14.md",
+      "type": "service"
+    },
+    {
+      "id": "Camera_Varanda_16",
+      "label": "Camera Varanda (Canal 1)",
+      "community": 4,
+      "description": "C\u00e2mera Dual-Lens 2.5K Xiongmai localizada em 192.168.1.16 integrada ao canal 1 do go2rtc",
+      "file_type": "concept",
+      "norm_label": "camera varanda (canal 1)",
+      "source_file": "config/cameras.json",
+      "type": "device"
+    },
+    {
+      "id": "10_RTSP_Manager",
+      "label": "10_RTSP_Manager",
+      "community": 4,
+      "description": "Gateway de Streaming CFTV em WebRTC com Resolu\u00e7\u00e3o Din\u00e2mica por MAC Address e Autodescoberta para o Homelab",
+      "file_type": "concept",
+      "norm_label": "10_rtsp_manager",
+      "source_file": "README.md",
+      "type": "system"
+    },
+    {
+      "id": "NVR_Xiongmai",
+      "label": "NVR Xiongmai Principal",
+      "community": 4,
+      "description": "Gravador de CFTV em rede (192.168.1.20) concentrador dos canais 02 a 06",
+      "file_type": "concept",
+      "norm_label": "nvr xiongmai principal",
+      "source_file": "README.md",
+      "type": "device"
+    },
+    {
+      "id": "Issue_001_Resolvida",
+      "label": "Issue #001 (Resolvida)",
+      "community": 4,
+      "description": "Investiga\u00e7\u00e3o do canal 01 resolvida com a integra\u00e7\u00e3o direta da C\u00e2mera Varanda 2.5K",
+      "file_type": "concept",
+      "norm_label": "issue #001 (resolvida)",
+      "source_file": "docs/ISSUES.md",
+      "type": "issue"
+    },
+    {
+      "id": "config_go2rtc_gateway",
+      "label": "go2rtc Gateway",
+      "community": 4,
+      "description": "Motor WebRTC/RTSP de alt\u00edssimo desempenho com zero transcoding e suporte a perfis H.264 e HEVC",
+      "file_type": "concept",
+      "norm_label": "go2rtc gateway",
+      "source_file": "config/go2rtc.yaml",
+      "type": "service"
+    }
+  ],
+  "links": [
+    {
+      "source": "scripts_capture_snapshot_main",
+      "target": "scripts_capture_snapshot_capture_via_go2rtc",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_capture_snapshot_main",
+      "target": "scripts_capture_snapshot_capture_via_ffmpeg",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_capture_snapshot_main",
+      "target": "scripts_capture_snapshot_send_to_ntfy_curl",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_get_arp_table",
+      "target": "scripts_dynamic_resolver_normalize_mac",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_ping_host",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_get_arp_table",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_normalize_mac",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_check_port",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_send_notification",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_generate_go2rtc_yaml",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L305",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_main",
+      "target": "scripts_dynamic_resolver_reload_go2rtc",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_homelab_watchdog_sh__entry",
+      "target": "scripts_homelab_watchdog_check_cftv_channel",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_homelab_watchdog_sh__entry",
+      "target": "scripts_homelab_watchdog_check_service",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_rtsp_probe_main",
+      "target": "scripts_rtsp_probe_check_port",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_dynamic_resolver",
+      "target": "scripts_dynamic_resolver",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_capture_snapshot",
+      "target": "scripts_capture_snapshot_capture_via_ffmpeg",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_capture_snapshot",
+      "target": "scripts_capture_snapshot_capture_via_go2rtc",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_capture_snapshot",
+      "target": "scripts_capture_snapshot_send_to_ntfy_curl",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_capture_snapshot",
+      "target": "scripts_capture_snapshot_main",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/capture_snapshot.py",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_cftv_watchdog",
+      "target": "scripts_cftv_watchdog_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/cftv_watchdog.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_generate_go2rtc_yaml",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_reload_go2rtc",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_main",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_normalize_mac",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_get_arp_table",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_check_port",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_ping_host",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "scripts_dynamic_resolver_send_notification",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_homelab_watchdog",
+      "target": "scripts_homelab_watchdog_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_install_alpine",
+      "target": "scripts_install_alpine_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/install_alpine.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_reconcile_daemon",
+      "target": "scripts_reconcile_daemon_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/reconcile_daemon.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_rtsp_probe",
+      "target": "scripts_rtsp_probe_check_port",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_rtsp_probe",
+      "target": "scripts_rtsp_probe_probe_rtsp_url",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_rtsp_probe",
+      "target": "scripts_rtsp_probe_main",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/rtsp_probe.py",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_dynamic_resolver",
+      "target": "tests_test_dynamic_resolver_test_normalize_mac",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_dynamic_resolver",
+      "target": "tests_test_dynamic_resolver_test_generate_go2rtc_yaml",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_rtsp_connectivity",
+      "target": "tests_test_rtsp_connectivity_test_cameras_json_structure",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_rtsp_connectivity",
+      "target": "tests_test_rtsp_connectivity_test_go2rtc_yaml_exists",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_rtsp_connectivity",
+      "target": "tests_test_rtsp_connectivity_test_nvr_network_connectivity",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_homelab_watchdog",
+      "target": "scripts_homelab_watchdog_check_service",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_homelab_watchdog",
+      "target": "scripts_homelab_watchdog_check_cftv_channel",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/homelab-watchdog.sh",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_rationale_115",
+      "target": "scripts_dynamic_resolver_generate_go2rtc_yaml",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_rationale_168",
+      "target": "scripts_dynamic_resolver_reload_go2rtc",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_rationale_40",
+      "target": "scripts_dynamic_resolver_get_arp_table",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_rationale_81",
+      "target": "scripts_dynamic_resolver_check_port",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_rationale_89",
+      "target": "scripts_dynamic_resolver_ping_host",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_dynamic_resolver_rationale_96",
+      "target": "scripts_dynamic_resolver_send_notification",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_dynamic_resolver_rationale_1",
+      "target": "tests_test_dynamic_resolver",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_rtsp_connectivity_rationale_1",
+      "target": "tests_test_rtsp_connectivity",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_rtsp_connectivity_rationale_31",
+      "target": "tests_test_rtsp_connectivity_test_nvr_network_connectivity",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_rtsp_connectivity.py",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_dynamic_resolver_test_generate_go2rtc_yaml",
+      "target": "scripts_dynamic_resolver_generate_go2rtc_yaml",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "call",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_dynamic_resolver_test_normalize_mac",
+      "target": "scripts_dynamic_resolver_normalize_mac",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "call",
+      "source_file": "tests/test_dynamic_resolver.py",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "Uptime_Kuma",
+      "target": "Ntfy_Alerts",
+      "relation": "dispatches_events",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/SESSIONS_2026-09-14.md"
+    },
+    {
+      "source": "10_RTSP_Manager",
+      "target": "config_go2rtc_gateway",
+      "relation": "manages",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md"
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "Ntfy_Alerts",
+      "relation": "notifies_ip_change",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py"
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "config_go2rtc_gateway",
+      "relation": "reconfigures",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py"
+    },
+    {
+      "source": "Camera_Varanda_16",
+      "target": "Issue_001_Resolvida",
+      "relation": "resolves",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "config/cameras.json"
+    },
+    {
+      "source": "scripts_dynamic_resolver",
+      "target": "Camera_Varanda_16",
+      "relation": "resolves_mac_to_ip",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/dynamic_resolver.py"
+    },
+    {
+      "source": "scripts_homelab_watchdog",
+      "target": "Ntfy_Alerts",
+      "relation": "sends_push_alerts",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/homelab-watchdog.sh"
+    },
+    {
+      "source": "config_go2rtc_gateway",
+      "target": "Camera_Varanda_16",
+      "relation": "streams_channel_01",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "config/go2rtc.yaml"
+    },
+    {
+      "source": "config_go2rtc_gateway",
+      "target": "NVR_Xiongmai",
+      "relation": "streams_channels_02_to_06",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "config/go2rtc.yaml"
+    },
+    {
+      "source": "scripts_homelab_watchdog",
+      "target": "config_go2rtc_gateway",
+      "relation": "validates_frames",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/homelab-watchdog.sh"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "dde423a95a4b59c96e5ab74e03e3b3e9742dd5f2"
+}

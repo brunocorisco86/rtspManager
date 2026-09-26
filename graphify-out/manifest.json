@@ -1,0 +1,98 @@
+{
+  "config/cameras.json": {
+    "mtime": 1790427510.1359591,
+    "seen": 1790428206.7362077,
+    "ast_hash": "636e071055abfb886759b09944f6b206",
+    "semantic_hash": "636e071055abfb886759b09944f6b206"
+  },
+  "config/inventory.json": {
+    "mtime": 1789438501.9683487,
+    "seen": 1790428206.7362106,
+    "ast_hash": "f5ae2e9ccf055f4955184cdd5d88803f",
+    "semantic_hash": "f5ae2e9ccf055f4955184cdd5d88803f"
+  },
+  "scripts/capture_snapshot.py": {
+    "mtime": 1789438192.8679614,
+    "seen": 1790428206.736212,
+    "ast_hash": "a7bc8c4033c744b1516aef24d1dbbb31",
+    "semantic_hash": "a7bc8c4033c744b1516aef24d1dbbb31"
+  },
+  "scripts/cftv_watchdog.sh": {
+    "mtime": 1789442038.1329288,
+    "seen": 1790428206.7362134,
+    "ast_hash": "18e09ee92b013691ed9a87031fb141b8",
+    "semantic_hash": "18e09ee92b013691ed9a87031fb141b8"
+  },
+  "scripts/dynamic_resolver.py": {
+    "mtime": 1789437758.4105341,
+    "seen": 1790428206.7362142,
+    "ast_hash": "e56ecabde029f31a560fb0cd40e52d9b",
+    "semantic_hash": "e56ecabde029f31a560fb0cd40e52d9b"
+  },
+  "scripts/homelab-watchdog.sh": {
+    "mtime": 1790427569.4664357,
+    "seen": 1790428206.736215,
+    "ast_hash": "900d0f929fa8602adc5b95eb8d9dc1bb",
+    "semantic_hash": "900d0f929fa8602adc5b95eb8d9dc1bb"
+  },
+  "scripts/install_alpine.sh": {
+    "mtime": 1789437463.090867,
+    "seen": 1790428206.7362156,
+    "ast_hash": "409cb2a8bde6ca01d402bc74b6eef8df",
+    "semantic_hash": "409cb2a8bde6ca01d402bc74b6eef8df"
+  },
+  "scripts/reconcile_daemon.sh": {
+    "mtime": 1789437791.4722605,
+    "seen": 1790428206.7362163,
+    "ast_hash": "6dc9e75604b4d515ac4f64b8485724f5",
+    "semantic_hash": "6dc9e75604b4d515ac4f64b8485724f5"
+  },
+  "scripts/rtsp_probe.py": {
+    "mtime": 1789437439.9710898,
+    "seen": 1790428206.736217,
+    "ast_hash": "fb15d78f9727975f3fd31b9b84c54b14",
+    "semantic_hash": "fb15d78f9727975f3fd31b9b84c54b14"
+  },
+  "scripts/setup_kuma.py": {
+    "mtime": 1789443199.506461,
+    "seen": 1790428206.7362175,
+    "ast_hash": "0f9678011d5da9248b039800d7117c44",
+    "semantic_hash": "0f9678011d5da9248b039800d7117c44"
+  },
+  "tests/test_dynamic_resolver.py": {
+    "mtime": 1789437805.9091408,
+    "seen": 1790428206.7362185,
+    "ast_hash": "277fe2b035eec319e46c173fc18a866c",
+    "semantic_hash": "277fe2b035eec319e46c173fc18a866c"
+  },
+  "tests/test_rtsp_connectivity.py": {
+    "mtime": 1790427601.4601533,
+    "seen": 1790428206.7362192,
+    "ast_hash": "4c296b42c414f3a6adfda8358d0cb07d",
+    "semantic_hash": "4c296b42c414f3a6adfda8358d0cb07d"
+  },
+  "README.md": {
+    "mtime": 1790427528.617796,
+    "seen": 1790428206.73622,
+    "ast_hash": "5ebe0f4f83fd81c240b52b49abd59261",
+    "semantic_hash": "5ebe0f4f83fd81c240b52b49abd59261"
+  },
+  "config/go2rtc.yaml": {
+    "mtime": 1790427493.922102,
+    "seen": 1790428206.7362206,
+    "ast_hash": "34aa51f74d5ac10c17fd7afe1d9d4405",
+    "semantic_hash": "34aa51f74d5ac10c17fd7afe1d9d4405"
+  },
+  "docs/ISSUES.md": {
+    "mtime": 1790427552.1775882,
+    "seen": 1790428206.736221,
+    "ast_hash": "d632a582777c1a1e579aac069960c3ba",
+    "semantic_hash": "d632a582777c1a1e579aac069960c3ba"
+  },
+  "docs/SESSIONS_2026-09-14.md": {
+    "mtime": 1789443538.543587,
+    "seen": 1790428206.736222,
+    "ast_hash": "38321ae9129b8442873fc50232317c3d",
+    "semantic_hash": "38321ae9129b8442873fc50232317c3d"
+  }
+}
