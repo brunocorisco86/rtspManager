@@ -162,6 +162,9 @@ def generate_pdf_report(events: list, target_date: str, plot_img_path: Path, out
 
         # Indicadores Executivos
         total_events = len(events)
+        humans_count = sum(1 for e in events if "human" in e.get("event_type", "").lower() or "face" in e.get("event_type", "").lower())
+        motion_count = total_events - humans_count
+
         if total_events > 0:
             ch_counter = {}
             for e in events:
@@ -174,9 +177,11 @@ def generate_pdf_report(events: list, target_date: str, plot_img_path: Path, out
             first_event = "N/A"
             last_event = "N/A"
 
+        event_summary_str = f"{total_events} ({humans_count} humanos, {motion_count} mov.)" if total_events > 0 else "0"
+
         metrics_data = [
             ["Métrica Analisada", "Valor Registrado", "Métrica de Infraestrutura", "Status"],
-            ["Total de Pessoas Detectadas", str(total_events), "Armazenamento Pendrive", f"{disk_info.get('free_gb', '0')} GB livres ({disk_info.get('used_pct', '0%')})"],
+            ["Total de Ocorrências", event_summary_str, "Armazenamento Pendrive", f"{disk_info.get('free_gb', '0')} GB livres ({disk_info.get('used_pct', '0%')})"],
             ["Canal com Maior Atividade", most_active_channel, "Cluster Homelab", "Nó Alpine (192.168.1.7)"],
             ["Primeiro Registro do Dia", first_event, "NVR Xiongmai", "Online (Read-Only)"],
             ["Último Registro do Dia", last_event, "Gateway WebRTC", "go2rtc (Nó Peixe)"]

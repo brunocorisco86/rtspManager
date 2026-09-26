@@ -47,16 +47,17 @@ NTFY_TOPIC = os.getenv("NTFY_TOPIC", "bruno-casa-dallas")
 DEBOUNCE_SECONDS = int(os.getenv("DEBOUNCE_SECONDS", "45"))
 MIN_FREE_SPACE_MB = int(os.getenv("MIN_FREE_SPACE_MB", "500"))
 
-# Mapeamento de Canais para Nomes e Streams do go2rtc
+# Mapeamento de Canais para Nomes e Streams do go2rtc (auditado do NVR)
 CHANNEL_MAP = {
     0: {"name": "Varanda (Canal 1)", "stream": "canal_01"},
-    1: {"name": "Frente (Canal 2)", "stream": "canal_02"},
+    1: {"name": "Vizinho (Canal 2)", "stream": "canal_02"},
     2: {"name": "Garagem (Canal 3)", "stream": "canal_03"},
-    3: {"name": "Fundos (Canal 4)", "stream": "canal_04"},
-    4: {"name": "Lateral (Canal 5)", "stream": "canal_05"},
-    5: {"name": "Interna (Canal 6)", "stream": "canal_06"},
+    3: {"name": "Quintal (Canal 4)", "stream": "canal_04"},
+    4: {"name": "Garagem (Canal 5)", "stream": "canal_05"},
+    5: {"name": "Vizinho (Canal 6)", "stream": "canal_06"},
     # Fallback caso venha indexado de 1 a 6
-    6: {"name": "Interna (Canal 6)", "stream": "canal_06"},
+    1: {"name": "Vizinho (Canal 2)", "stream": "canal_02"},
+    6: {"name": "Vizinho (Canal 6)", "stream": "canal_06"},
 }
 
 def resolve_storage_dir() -> Path:
@@ -178,7 +179,7 @@ class DVREventOrchestrator:
         url = f"http://{GO2RTC_HOST}:{GO2RTC_PORT}/api/frame.jpeg?src={stream_name}"
         try:
             req = urllib.request.Request(url)
-            with urllib.request.urlopen(req, timeout=4) as resp:
+            with urllib.request.urlopen(req, timeout=10) as resp:
                 if resp.status == 200:
                     return resp.read()
         except Exception as e:
@@ -199,8 +200,15 @@ class DVREventOrchestrator:
             channel = info.get("Channel", 0)
             status = info.get("Status", "Start")
 
-            # Filtramos apenas o início do evento de detecção de humano (ou alarme)
+            # Filtramos apenas o início do evento (Start)
             if status.lower() not in ("start", "1", "true"):
+                return
+
+            # Filtramos apenas eventos de presença reais (humano, face, movimento)
+            # Ignoramos perdas de vídeo (VideoLoss), rede (NetAbort), etc.
+            ev_lower = event_type.lower()
+            if not any(k in ev_lower for k in ["motion", "human", "face", "alarm"]):
+                logger.debug(f"Ignorando evento secundário: {event_type}")
                 return
 
             # Verifica Cooldown para evitar enxurrada de disparos repetidos
@@ -216,7 +224,9 @@ class DVREventOrchestrator:
             ch_name = ch_info["name"]
             stream_name = ch_info["stream"]
 
-            logger.info(f"🚨 DETECÇÃO DE PESSOA: {ch_name} | Tipo: {event_type}")
+            is_human = "human" in event_type.lower() or "face" in event_type.lower()
+            event_label = "Pessoa Identificada" if is_human else "Movimento Detectado"
+            logger.info(f"🚨 ALERTA CFTV: {event_label} em {ch_name} | Evento NVR: {event_type}")
 
             # 1. Captura snapshot via go2rtc no nó Peixe
             frame_bytes = self._fetch_frame_from_go2rtc(stream_name)
@@ -240,8 +250,9 @@ class DVREventOrchestrator:
             self.db.record_event(channel, ch_name, event_type, str(file_path), file_size)
 
             # 4. Dispara push instantâneo com foto para o smartphone via ntfy
-            title = f"⚠️ Pessoa Identificada: {ch_name}"
-            msg = f"Detecção registrada às {datetime.now().strftime('%H:%M:%S')}. Snapshot salvo com sucesso no pendrive."
+            title_prefix = "⚠️ Pessoa Identificada" if is_human else "🔔 Movimento Detectado"
+            title = f"{title_prefix}: {ch_name}"
+            msg = f"{event_label} às {datetime.now().strftime('%H:%M:%S')}. Snapshot salvo com sucesso no pendrive."
             self.notifier.send_alert(title, msg, frame_bytes, filename)
 
             # 5. Verifica capacidade de armazenamento
