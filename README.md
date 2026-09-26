@@ -111,4 +111,14 @@ O script irá:
 ```bash
 pytest tests/
 ```
-Valida a normalização de MACs, leitura da tabela ARP, geração de YAML e integridade dos schemas JSON.
+Valida a normalização de MACs, leitura da tabela ARP, integridade dos schemas JSON, protocolo Sofia hash e geração do relatório executivo em PDF.
+
+---
+
+## 🛡️ Eventos Inteligentes & Relatório Noturno Diário (Zero-Touch NVR)
+
+O sistema conta com um orquestrador passivo de eventos conectado ao NVR na porta `34567` (DVRIP):
+* **Escuta Passiva (`scripts/dvr_event_listener.py`):** Serviço OpenRC no nó Alpine (`cftv-events`). Captura detecções de humanos e salva snapshots no pendrive cinza (`/mnt/pendrive_cinza/cftv_events/`).
+* **Alerta Instantâneo:** Envia push com foto no app **ntfy** (`bruno-casa-dallas`) com cooldown anti-duplicação.
+* **Relatório Noturno às 21:00 (`scripts/generate_daily_report.py`):** Cron diário que compila gráfico de série temporal (Matplotlib) e documento executivo em PDF (ReportLab) com as fotos das pessoas detectadas, despachando direto para o smartphone.
+
