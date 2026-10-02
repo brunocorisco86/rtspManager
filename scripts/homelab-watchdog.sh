@@ -131,7 +131,9 @@ if [ "$CURRENT_NVR_STATE" = "UP" ]; then
         fi
         echo "$CURRENT_CH_STATE" > "$CH_STATE_FILE"
 
-        if [ "$MODE" != "--report" ]; then
+        # Notificações instantâneas de canais individuais silenciadas por padrão para evitar fadiga de decisão.
+        # Os eventos de conectividade são persistidos no PostgreSQL (ssh alpine) e consolidados no relatório semanal.
+        if [ "$MODE" != "--report" ] && [ "${NOTIFY_CFTV_CHANNELS:-0}" = "1" ]; then
             if [ "$PREV_CH_STATE" = "UP" ] && [ "$CURRENT_CH_STATE" = "DOWN" ]; then
                 notifica -t "⚠️ CFTV: Canal ${CH} Sem Vídeo" \
                          -p 4 \

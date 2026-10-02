@@ -28,6 +28,22 @@ CONFIG_FILE = BASE_DIR / "config" / "cameras.json"
 INVENTORY_FILE = BASE_DIR / "config" / "inventory.json"
 GO2RTC_CONFIG = BASE_DIR / "config" / "go2rtc.yaml"
 
+# Importação resiliente de cftv_db para registro no Postgres (ssh alpine)
+sys.path.insert(0, str(Path(__file__).parent))
+try:
+    from cftv_db import record_event
+except ImportError:
+    try:
+        from scripts.cftv_db import record_event
+    except ImportError:
+        def record_event(*args, **kwargs):
+            return False
+
+# Flags para eliminar fadiga de decisão no ntfy (notificações consolidadas aos domingos)
+ALERT_ON_IP_CHANGE = os.getenv("ALERT_ON_IP_CHANGE", "false").lower() in ("true", "1", "yes")
+ALERT_ON_CAM_STATUS = os.getenv("ALERT_ON_CAM_STATUS", "false").lower() in ("true", "1", "yes")
+ALERT_ON_DISCOVER = os.getenv("ALERT_ON_DISCOVER", "false").lower() in ("true", "1", "yes")
+
 def normalize_mac(mac_str):
     if not mac_str:
         return None
@@ -224,9 +240,50 @@ def main():
     nvr_status = "ONLINE" if (resolved_nvr_ip and check_port(resolved_nvr_ip, 554)) else "OFFLINE"
     nvr["status"] = nvr_status
 
-    prev_nvr_ip = inventory.get("nvr", {}).get("resolved_ip")
+    prev_nvr = inventory.get("nvr", {})
+    prev_nvr_ip = prev_nvr.get("resolved_ip")
+    prev_nvr_status = prev_nvr.get("status")
+
+    # Detecta e registra mudança de IP do NVR
     if prev_nvr_ip and resolved_nvr_ip and prev_nvr_ip != resolved_nvr_ip:
-        send_notification("🔄 NVR Mudou de IP", f"O NVR foi realocado de {prev_nvr_ip} para {resolved_nvr_ip}", priority="4", tags="warning,video_camera")
+        print(f"  🔄 NVR mudou de IP: {prev_nvr_ip} -> {resolved_nvr_ip}. Registrando no Postgres...")
+        record_event(
+            device_name=nvr.get("name", "NVR_Principal"),
+            device_type="nvr",
+            event_type="IP_CHANGED",
+            old_ip=prev_nvr_ip,
+            new_ip=resolved_nvr_ip,
+            mac_address=nvr_mac,
+            details=f"O NVR foi realocado de {prev_nvr_ip} para {resolved_nvr_ip}"
+        )
+        if ALERT_ON_IP_CHANGE:
+            send_notification("🔄 NVR Mudou de IP", f"O NVR foi realocado de {prev_nvr_ip} para {resolved_nvr_ip}", priority="4", tags="warning,video_camera")
+
+    # Detecta transição de status do NVR
+    if prev_nvr_status == "ONLINE" and nvr_status == "OFFLINE":
+        print("  🚨 NVR Principal Offline! Registrando no Postgres...")
+        record_event(
+            device_name=nvr.get("name", "NVR_Principal"),
+            device_type="nvr",
+            event_type="DISCONNECTED",
+            old_ip=prev_nvr_ip,
+            new_ip=resolved_nvr_ip,
+            mac_address=nvr_mac,
+            details="NVR Principal parou de responder na porta 554"
+        )
+        send_notification("🚨 CFTV: NVR Principal Offline!", f"O NVR Principal ({resolved_nvr_ip or nvr_ip}:554) parou de responder.", priority="5", tags="rotating_light,nvr")
+    elif prev_nvr_status == "OFFLINE" and nvr_status == "ONLINE":
+        print("  ✅ NVR Principal Restabelecido! Registrando no Postgres...")
+        record_event(
+            device_name=nvr.get("name", "NVR_Principal"),
+            device_type="nvr",
+            event_type="RECONNECTED",
+            old_ip=prev_nvr_ip,
+            new_ip=resolved_nvr_ip,
+            mac_address=nvr_mac,
+            details="NVR Principal restabelecido e operando normalmente"
+        )
+        send_notification("✅ CFTV: NVR Principal Restabelecido", f"O NVR Principal ({resolved_nvr_ip}) voltou a operar normalmente.", priority="3", tags="white_check_mark,nvr")
 
     print(f"  • NVR: {nvr.get('name')} | MAC: {nvr_mac} | IP Resolvido: {resolved_nvr_ip} | Status: {nvr_status}")
 
@@ -247,10 +304,52 @@ def main():
 
         status = "ONLINE" if (resolved_ip and check_port(resolved_ip, 554)) else "OFFLINE"
 
-        # Detecta mudança de IP
-        prev_cam_ip = inventory.get("cameras", {}).get(c_name, {}).get("resolved_ip")
+        prev_cam = inventory.get("cameras", {}).get(c_name, {})
+        prev_cam_ip = prev_cam.get("resolved_ip")
+        prev_cam_status = prev_cam.get("status")
+
+        # Detecta e registra mudança de IP da Câmera
         if prev_cam_ip and resolved_ip and prev_cam_ip != resolved_ip:
-            send_notification("🔄 Câmera Mudou de IP", f"A {c_name} mudou de IP: {prev_cam_ip} -> {resolved_ip}", priority="3", tags="information_source,camera")
+            print(f"  🔄 Câmera {c_name} mudou de IP: {prev_cam_ip} -> {resolved_ip}. Registrando no Postgres...")
+            record_event(
+                device_name=c_name,
+                device_type="camera",
+                event_type="IP_CHANGED",
+                old_ip=prev_cam_ip,
+                new_ip=resolved_ip,
+                mac_address=c_mac,
+                details=f"A {c_name} mudou de IP: {prev_cam_ip} -> {resolved_ip}"
+            )
+            if ALERT_ON_IP_CHANGE:
+                send_notification("🔄 Câmera Mudou de IP", f"A {c_name} mudou de IP: {prev_cam_ip} -> {resolved_ip}", priority="3", tags="information_source,camera")
+
+        # Detecta e registra transição de status (desconexão/reconexão)
+        if prev_cam_status == "ONLINE" and status == "OFFLINE":
+            print(f"  ⚠️ Câmera {c_name} desconectou (OFFLINE). Registrando no Postgres...")
+            record_event(
+                device_name=c_name,
+                device_type="camera",
+                event_type="DISCONNECTED",
+                old_ip=prev_cam_ip or resolved_ip,
+                new_ip=resolved_ip,
+                mac_address=c_mac,
+                details=f"A {c_name} desconectou (porta 554 fechada ou sem resposta)"
+            )
+            if ALERT_ON_CAM_STATUS:
+                send_notification("⚠️ CFTV: Câmera Sem Vídeo", f"A {c_name} perdeu sinal.", priority="4", tags="warning,camera")
+        elif prev_cam_status == "OFFLINE" and status == "ONLINE":
+            print(f"  ✅ Câmera {c_name} restabelecida (ONLINE). Registrando no Postgres...")
+            record_event(
+                device_name=c_name,
+                device_type="camera",
+                event_type="RECONNECTED",
+                old_ip=prev_cam_ip,
+                new_ip=resolved_ip,
+                mac_address=c_mac,
+                details=f"A {c_name} restabeleceu conexão em {resolved_ip}"
+            )
+            if ALERT_ON_CAM_STATUS:
+                send_notification("✅ CFTV: Câmera Restabelecida", f"A {c_name} voltou a operar em {resolved_ip}.", priority="3", tags="white_check_mark,camera")
 
         cam_record = {
             "name": c_name,
@@ -277,7 +376,7 @@ def main():
         for mac, ip in mac_to_ip.items():
             if ip.startswith(subnet_base) and ip not in registered_ips:
                 if check_port(ip, 554):
-                    print(f"  ✨ Nova Câmera Detectada: IP {ip} | MAC {mac}")
+                    print(f"  ✨ Nova Câmera Detectada: IP {ip} | MAC {mac}. Registrando no Postgres...")
                     new_cam = {
                         "name": f"Discovered_Cam_{ip.split('.')[-1]}",
                         "mac": mac,
@@ -290,7 +389,17 @@ def main():
                         "last_seen": datetime.now().isoformat()
                     }
                     resolved_cameras.append(new_cam)
-                    send_notification("✨ Nova Câmera Detectada", f"Nova câmera IP detectada na rede: {ip} (MAC: {mac})", priority="3", tags="sparkles,camera")
+                    record_event(
+                        device_name=new_cam["name"],
+                        device_type="camera",
+                        event_type="DISCOVERED",
+                        old_ip=None,
+                        new_ip=ip,
+                        mac_address=mac,
+                        details=f"Nova câmera IP detectada na rede: {ip} (MAC: {mac})"
+                    )
+                    if ALERT_ON_DISCOVER:
+                        send_notification("✨ Nova Câmera Detectada", f"Nova câmera IP detectada na rede: {ip} (MAC: {mac})", priority="3", tags="sparkles,camera")
 
     # 4. Salva Inventário em config/inventory.json
     new_inventory = {

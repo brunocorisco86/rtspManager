@@ -123,4 +123,13 @@ O sistema conta com um orquestrador passivo de eventos conectado ao NVR na porta
 * **Relatório Noturno às 21:00 (`scripts/generate_daily_report.py`):** Cron diário que compila gráfico de série temporal (Matplotlib) e documento executivo em PDF (ReportLab) com as fotos das pessoas detectadas, despachando direto para o smartphone.
 * **Política de Prune e Higienização (`scripts/prune_cftv_storage.py`):** Elimina automaticamente fotos e pastas com mais de 31 dias, limpando o banco SQLite e executando `VACUUM` para liberar espaço físico no pendrive cinza.
 
+---
+
+## 📊 Redução de Fadiga de Decisão & Relatório Semanal (PostgreSQL `ssh alpine`)
+
+Para evitar a sobrecarga de notificações contínuas no smartphone causadas por transições transitórias de rede, flaps e trocas de IP de câmeras:
+* **Silenciamento Ativo:** O `dynamic_resolver.py` e o watchdog agora operam em modo silencioso para micro-eventos de câmeras individuais. Alertas instantâneos de alta prioridade via ntfy são disparados apenas em falhas críticas reais (como a queda total do NVR Principal).
+* **Auditoria Contínua no PostgreSQL (`ssh alpine`):** Todos os eventos de `IP_CHANGED`, `DISCONNECTED`, `RECONNECTED` e `DISCOVERED` são registrados na tabela `cftv_network_events` do banco existente no host Alpine (`192.168.1.7:5432`).
+* **Relatório Consolidado aos Domingos (`scripts/generate_weekly_network_report.py`):** Agendado no crontab todo domingo às 08:30, compilando o balanço dos últimos 7 dias com total de trocas de IP, oscilações por câmera e status em tempo real da malha diretamente via ntfy.
+
 

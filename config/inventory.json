@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-14T23:15:01.968070",
+  "updated_at": "2026-10-02T01:04:31.066278",
   "nvr": {
     "name": "NVR_Principal",
     "mac": "00:12:43:24:4e:c6",
@@ -22,12 +22,12 @@
       "name": "Camera_04",
       "mac": "a4:ef:15:30:79:32",
       "configured_ip": "192.168.1.4",
-      "resolved_ip": "192.168.1.4",
+      "resolved_ip": "192.168.1.2",
       "nvr_channel": 6,
       "status": "ONLINE",
       "user": "admin",
       "password": "",
-      "last_seen": "2026-09-14T23:15:01.875769"
+      "last_seen": "2026-10-02T01:04:27.071912"
     },
     "Camera_31": {
       "name": "Camera_31",
@@ -38,15 +38,15 @@
       "status": "ONLINE",
       "user": "admin",
       "password": "",
-      "last_seen": "2026-09-14T23:15:01.876145"
+      "last_seen": "2026-10-02T01:04:27.072472"
     },
     "Camera_05": {
       "name": "Camera_05",
       "mac": "c4:3c:b0:79:80:db",
       "configured_ip": "192.168.1.5",
-      "resolved_ip": "192.168.1.5",
+      "resolved_ip": "192.168.1.11",
       "nvr_channel": 1,
-      "status": "ONLINE",
+      "status": "OFFLINE",
       "user": "admin",
       "password": "",
       "last_seen": "2026-09-14T23:15:01.883626"
@@ -55,9 +55,9 @@
       "name": "Camera_06",
       "mac": "48:8f:4c:3d:13:14",
       "configured_ip": "192.168.1.6",
-      "resolved_ip": "192.168.1.6",
+      "resolved_ip": "192.168.1.4",
       "nvr_channel": 4,
-      "status": "ONLINE",
+      "status": "OFFLINE",
       "user": "admin",
       "password": "",
       "last_seen": "2026-09-14T23:15:01.888646"
@@ -66,23 +66,34 @@
       "name": "Camera_10",
       "mac": "38:be:ab:91:96:85",
       "configured_ip": "192.168.1.10",
-      "resolved_ip": "192.168.1.10",
+      "resolved_ip": "192.168.1.100",
       "nvr_channel": null,
       "status": "ONLINE",
       "user": "admin",
       "password": "",
-      "last_seen": "2026-09-14T23:15:01.894059"
+      "last_seen": "2026-10-02T01:04:29.230932"
     },
     "Camera_11": {
       "name": "Camera_11",
       "mac": "38:be:ab:91:96:85",
       "configured_ip": "192.168.1.11",
-      "resolved_ip": "192.168.1.10",
+      "resolved_ip": "192.168.1.100",
       "nvr_channel": null,
       "status": "ONLINE",
       "user": "admin",
       "password": "",
-      "last_seen": "2026-09-14T23:15:01.897847"
+      "last_seen": "2026-10-02T01:04:29.592220"
+    },
+    "Camera_Varanda_16": {
+      "name": "Camera_Varanda_16",
+      "mac": "d4:a3:eb:89:bd:f4",
+      "configured_ip": "192.168.1.16",
+      "resolved_ip": "192.168.1.10",
+      "nvr_channel": 1,
+      "status": "OFFLINE",
+      "user": "admin",
+      "password": "",
+      "last_seen": null
     }
   }
 }

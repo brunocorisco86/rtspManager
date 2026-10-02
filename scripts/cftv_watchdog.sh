@@ -53,16 +53,18 @@ if [ "$CURRENT_NVR_STATE" = "UP" ]; then
         fi
         echo "$CURRENT_CH_STATE" > "$CH_STATE_FILE"
 
-        if [ "$PREV_CH_STATE" = "UP" ] && [ "$CURRENT_CH_STATE" = "DOWN" ]; then
-            notifica -t "⚠️ CFTV: Canal ${CH} Sem Vídeo" \
-                     -p 4 \
-                     -g "warning,camera" \
-                     "O Canal ${CH} do NVR perdeu o sinal de vídeo às $(date +'%H:%M:%S'). Verifique alimentação ou conexão da câmera."
-        elif [ "$PREV_CH_STATE" = "DOWN" ] && [ "$CURRENT_CH_STATE" = "UP" ]; then
-            notifica -t "✅ CFTV: Canal ${CH} Restabelecido" \
-                     -p 3 \
-                     -g "white_check_mark,camera" \
-                     "O Canal ${CH} do NVR voltou a transmitir vídeo normalmente às $(date +'%H:%M:%S')."
+        if [ "${NOTIFY_CFTV_CHANNELS:-0}" = "1" ]; then
+            if [ "$PREV_CH_STATE" = "UP" ] && [ "$CURRENT_CH_STATE" = "DOWN" ]; then
+                notifica -t "⚠️ CFTV: Canal ${CH} Sem Vídeo" \
+                         -p 4 \
+                         -g "warning,camera" \
+                         "O Canal ${CH} do NVR perdeu o sinal de vídeo às $(date +'%H:%M:%S'). Verifique alimentação ou conexão da câmera."
+            elif [ "$PREV_CH_STATE" = "DOWN" ] && [ "$CURRENT_CH_STATE" = "UP" ]; then
+                notifica -t "✅ CFTV: Canal ${CH} Restabelecido" \
+                         -p 3 \
+                         -g "white_check_mark,camera" \
+                         "O Canal ${CH} do NVR voltou a transmitir vídeo normalmente às $(date +'%H:%M:%S')."
+            fi
         fi
     done
 fi
