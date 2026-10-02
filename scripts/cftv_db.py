@@ -240,21 +240,51 @@ def get_weekly_stats(days: int = 7) -> Dict[str, Any]:
         conn.close()
 
 
-if __name__ == "__main__":
-    print(f"Testando conexão com {POSTGRES_HOST}:{POSTGRES_PORT} (DB: {POSTGRES_DB})...")
-    if init_db():
-        print("Tabela inicializada com sucesso!")
-        # Registra um evento de teste
-        record_event(
-            device_name="SelfTest_Cam",
-            device_type="camera",
-            event_type="RECONNECTED",
-            old_ip="192.168.1.99",
-            new_ip="192.168.1.99",
-            mac_address="00:11:22:33:44:55",
-            details="Self-test verification event"
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="CFTV Database Client CLI")
+    parser.add_argument("--record", action="store_true", help="Registra um evento no PostgreSQL")
+    parser.add_argument("--device", help="Nome do dispositivo (ex: NVR_Principal, Camera_05)")
+    parser.add_argument("--device-type", default="camera", choices=["camera", "nvr"], help="Tipo de dispositivo")
+    parser.add_argument("--event", help="Tipo de evento: DISCONNECTED, RECONNECTED, IP_CHANGED, DISCOVERED")
+    parser.add_argument("--old-ip", help="IP anterior")
+    parser.add_argument("--new-ip", help="Novo IP")
+    parser.add_argument("--mac", help="Endereço MAC")
+    parser.add_argument("--details", help="Descrição detalhada do evento")
+    parser.add_argument("--test", action="store_true", help="Executa autoteste de conectividade")
+
+    args = parser.parse_args()
+
+    if args.record:
+        if not args.device or not args.event:
+            print("Erro: --device e --event são obrigatórios com --record.", file=sys.stderr)
+            sys.exit(1)
+        ok = record_event(
+            device_name=args.device,
+            device_type=args.device_type,
+            event_type=args.event,
+            old_ip=args.old_ip,
+            new_ip=args.new_ip,
+            mac_address=args.mac,
+            details=args.details
         )
-        stats = get_weekly_stats(7)
-        print("Estatísticas obtidas:", stats)
-    else:
-        print("Falha ao inicializar o banco.")
+        if ok:
+            print(f"[CFTV_DB] Evento {args.event} para {args.device} gravado com sucesso.")
+            sys.exit(0)
+        else:
+            print(f"[CFTV_DB] Falha ao gravar evento para {args.device}.", file=sys.stderr)
+            sys.exit(1)
+
+    if args.test or len(sys.argv) == 1:
+        print(f"Testando conexão com {POSTGRES_HOST}:{POSTGRES_PORT} (DB: {POSTGRES_DB})...")
+        if init_db():
+            print("Tabela inicializada com sucesso!")
+            stats = get_weekly_stats(7)
+            print("Estatísticas obtidas:", stats.get("available"))
+        else:
+            print("Falha ao inicializar o banco.", file=sys.stderr)
+            sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

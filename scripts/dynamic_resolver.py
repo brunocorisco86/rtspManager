@@ -42,6 +42,7 @@ except ImportError:
 # Flags para eliminar fadiga de decisão no ntfy (notificações consolidadas aos domingos)
 ALERT_ON_IP_CHANGE = os.getenv("ALERT_ON_IP_CHANGE", "false").lower() in ("true", "1", "yes")
 ALERT_ON_CAM_STATUS = os.getenv("ALERT_ON_CAM_STATUS", "false").lower() in ("true", "1", "yes")
+ALERT_ON_NVR_STATUS = os.getenv("ALERT_ON_NVR_STATUS", "false").lower() in ("true", "1", "yes")
 ALERT_ON_DISCOVER = os.getenv("ALERT_ON_DISCOVER", "false").lower() in ("true", "1", "yes")
 
 def normalize_mac(mac_str):
@@ -271,7 +272,8 @@ def main():
             mac_address=nvr_mac,
             details="NVR Principal parou de responder na porta 554"
         )
-        send_notification("🚨 CFTV: NVR Principal Offline!", f"O NVR Principal ({resolved_nvr_ip or nvr_ip}:554) parou de responder.", priority="5", tags="rotating_light,nvr")
+        if ALERT_ON_NVR_STATUS:
+            send_notification("🚨 CFTV: NVR Principal Offline!", f"O NVR Principal ({resolved_nvr_ip or nvr_ip}:554) parou de responder.", priority="5", tags="rotating_light,nvr")
     elif prev_nvr_status == "OFFLINE" and nvr_status == "ONLINE":
         print("  ✅ NVR Principal Restabelecido! Registrando no Postgres...")
         record_event(
@@ -283,7 +285,8 @@ def main():
             mac_address=nvr_mac,
             details="NVR Principal restabelecido e operando normalmente"
         )
-        send_notification("✅ CFTV: NVR Principal Restabelecido", f"O NVR Principal ({resolved_nvr_ip}) voltou a operar normalmente.", priority="3", tags="white_check_mark,nvr")
+        if ALERT_ON_NVR_STATUS:
+            send_notification("✅ CFTV: NVR Principal Restabelecido", f"O NVR Principal ({resolved_nvr_ip}) voltou a operar normalmente.", priority="3", tags="white_check_mark,nvr")
 
     print(f"  • NVR: {nvr.get('name')} | MAC: {nvr_mac} | IP Resolvido: {resolved_nvr_ip} | Status: {nvr_status}")
 

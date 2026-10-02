@@ -127,6 +127,11 @@ def build_weekly_report(days: int = 7) -> str:
                     details.append(f"{ipc} trocas de IP")
                 lines.append(f"• **{name}**: {', '.join(details)}")
             lines.append("")
+
+            # Destaque para NVR se tiver oscilado
+            nvr_instability = next((r for r in ranking if "nvr" in r.get("device_name", "").lower()), None)
+            if nvr_instability and (nvr_instability.get("disconnects", 0) > 0 or nvr_instability.get("ip_changes", 0) > 0):
+                lines.append(f"⚠️ *Nota NVR:* O NVR Principal registrou {nvr_instability.get('disconnects', 0)} quedas no período (todas consolidadas aqui).\n")
         else:
             lines.append("✨ **Estabilidade:** Nenhuma oscilação crítica na semana!\n")
 

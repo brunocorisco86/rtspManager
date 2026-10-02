@@ -98,17 +98,32 @@ else
 fi
 echo "$CURRENT_NVR_STATE" > "$NVR_STATE_FILE"
 
+# Localiza cftv_db.py para registro no PostgreSQL (ssh alpine)
+CFTV_DB_SCRIPT="/home/bruno/10_RTSP_Manager/scripts/cftv_db.py"
+[ ! -f "$CFTV_DB_SCRIPT" ] && CFTV_DB_SCRIPT="$(dirname "$0")/cftv_db.py"
+[ ! -f "$CFTV_DB_SCRIPT" ] && CFTV_DB_SCRIPT="$(dirname "$0")/../scripts/cftv_db.py"
+
 if [ "$MODE" != "--report" ]; then
     if [ "$PREV_NVR_STATE" = "UP" ] && [ "$CURRENT_NVR_STATE" = "DOWN" ]; then
-        notifica -t "🚨 CFTV: NVR Principal Offline!" \
-                 -p 5 \
-                 -g "rotating_light,nvr" \
-                 "O NVR Principal ($NVR_IP:554) parou de responder às $(date +'%H:%M:%S'). Possível queda de energia ou cabo desconectado."
+        if [ -f "$CFTV_DB_SCRIPT" ]; then
+            python3 "$CFTV_DB_SCRIPT" --record --device "NVR_Principal" --device-type "nvr" --event "DISCONNECTED" --new-ip "$NVR_IP" --details "O NVR Principal ($NVR_IP:554) parou de responder às $(date +'%H:%M:%S')." > /dev/null 2>&1
+        fi
+        if [ "${NOTIFY_NVR_STATUS:-0}" = "1" ]; then
+            notifica -t "🚨 CFTV: NVR Principal Offline!" \
+                     -p 5 \
+                     -g "rotating_light,nvr" \
+                     "O NVR Principal ($NVR_IP:554) parou de responder às $(date +'%H:%M:%S'). Possível queda de energia ou cabo desconectado."
+        fi
     elif [ "$PREV_NVR_STATE" = "DOWN" ] && [ "$CURRENT_NVR_STATE" = "UP" ]; then
-        notifica -t "✅ CFTV: NVR Principal Restabelecido" \
-                 -p 3 \
-                 -g "white_check_mark,nvr" \
-                 "O NVR Principal ($NVR_IP) voltou a operar normalmente às $(date +'%H:%M:%S')."
+        if [ -f "$CFTV_DB_SCRIPT" ]; then
+            python3 "$CFTV_DB_SCRIPT" --record --device "NVR_Principal" --device-type "nvr" --event "RECONNECTED" --new-ip "$NVR_IP" --details "O NVR Principal ($NVR_IP) voltou a operar normalmente às $(date +'%H:%M:%S')." > /dev/null 2>&1
+        fi
+        if [ "${NOTIFY_NVR_STATUS:-0}" = "1" ]; then
+            notifica -t "✅ CFTV: NVR Principal Restabelecido" \
+                     -p 3 \
+                     -g "white_check_mark,nvr" \
+                     "O NVR Principal ($NVR_IP) voltou a operar normalmente às $(date +'%H:%M:%S')."
+        fi
     fi
 fi
 
